@@ -1,2 +1,4 @@
 # Auto Configure
-#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.z.tinytoken.autoconfigure.TinyTokenAutoConfiguration,\
+cn.z.tinytoken.spring.TinyTokenForSpring

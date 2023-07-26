@@ -1,25 +1,18 @@
 {
   "properties": [
     {
-      "name": "id.machine-id",
-      "type": "java.lang.Long",
-      "description": "机器码.",
-      "sourceType": "cn.z.id.autoconfigure.IdProperties",
-      "defaultValue": 0
+      "name": "tiny-token.name",
+      "type": "java.lang.String",
+      "description": "token名称.",
+      "sourceType": "cn.z.tinytoken.autoconfigure.TinyTokenProperties",
+      "defaultValue": "tinytoken"
     },
     {
-      "name": "id.machine-bits",
+      "name": "tiny-token.timeout",
       "type": "java.lang.Long",
-      "description": "机器码位数.",
-      "sourceType": "cn.z.id.autoconfigure.IdProperties",
-      "defaultValue": 8
-    },
-    {
-      "name": "id.sequence-bits",
-      "type": "java.lang.Long",
-      "description": "序列号位数.",
-      "sourceType": "cn.z.id.autoconfigure.IdProperties",
-      "defaultValue": 12
+      "description": "token过期时间(秒)(默认值30天);-1:不过期.",
+      "sourceType": "cn.z.tinytoken.autoconfigure.TinyTokenProperties",
+      "defaultValue": 2592000
     }
   ]
 }
