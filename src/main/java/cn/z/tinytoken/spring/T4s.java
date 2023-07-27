@@ -2,7 +2,6 @@ package cn.z.tinytoken.spring;
 
 import cn.z.tinytoken.TinyToken;
 import cn.z.tinytoken.autoconfigure.TinyTokenProperties;
-import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -21,7 +20,7 @@ import java.util.List;
  * @author ALI[ali-k@foxmail.com]
  * @since 1.0.0
  **/
-public class TinyTokenForSpring implements TinyToken<String, Long, Void> {
+public class T4s implements TinyToken<String, Long, Void> {
 
     /**
      * TinyTokenProperties
@@ -33,7 +32,7 @@ public class TinyTokenForSpring implements TinyToken<String, Long, Void> {
      *
      * @param tinyTokenProperties TinyTokenProperties
      */
-    public TinyTokenForSpring(TinyTokenProperties tinyTokenProperties) {
+    public T4s(TinyTokenProperties tinyTokenProperties) {
         this.tinyTokenProperties = tinyTokenProperties;
     }
 
@@ -69,13 +68,12 @@ public class TinyTokenForSpring implements TinyToken<String, Long, Void> {
      * @return token
      */
     @Override
-    @Nullable
     public String getToken() {
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(tinyTokenProperties.getName());
     }
 
     /**
-     * 获取id对应的token列表
+     * 获取token列表，通过id
      *
      * @param id id
      * @return token列表
@@ -96,7 +94,7 @@ public class TinyTokenForSpring implements TinyToken<String, Long, Void> {
     }
 
     /**
-     * 获取token对应的id
+     * 获取id，通过token
      *
      * @param token token
      * @return id
@@ -112,7 +110,7 @@ public class TinyTokenForSpring implements TinyToken<String, Long, Void> {
      * @param token token
      */
     @Override
-    public void deleteForToken(String token) {
+    public void deleteByToken(String token) {
 
     }
 
@@ -122,31 +120,30 @@ public class TinyTokenForSpring implements TinyToken<String, Long, Void> {
      * @param id id
      */
     @Override
-    public void deleteForId(Long id) {
+    public void deleteById(Long id) {
 
     }
 
     /**
-     * 获取token对应的信息
+     * 获取信息，通过token
      *
      * @param token token
      * @return 信息
      */
     @Override
-    public Info<String, Long, Void> getInfoForToken(String token) {
+    public Info<String, Long, Void> getInfoByToken(String token) {
         return null;
     }
 
     /**
-     * 获取id对应的信息列表
+     * 获取信息列表，通过id
      *
      * @param id id
      * @return 信息列表
      */
     @Override
-    public List<Info<String, Long, Void>> getInfoForId(Long id) {
+    public List<Info<String, Long, Void>> getInfoById(Long id) {
         return null;
     }
-
 
 }

@@ -48,7 +48,7 @@ public interface TinyToken<K, V, E> {
     K getToken();
 
     /**
-     * 获取id对应的token列表
+     * 获取token列表，通过id
      *
      * @param id id
      * @return token列表
@@ -63,7 +63,7 @@ public interface TinyToken<K, V, E> {
     V getId();
 
     /**
-     * 获取token对应的id
+     * 获取id，通过token
      *
      * @param token token
      * @return id
@@ -75,30 +75,30 @@ public interface TinyToken<K, V, E> {
      *
      * @param token token
      */
-    void deleteForToken(K token);
+    void deleteByToken(K token);
 
     /**
      * 删除，通过id
      *
      * @param id id
      */
-    void deleteForId(V id);
+    void deleteById(V id);
 
     /**
-     * 获取token对应的信息
+     * 获取信息，通过token
      *
      * @param token token
      * @return 信息
      */
-    Info<K, V, E> getInfoForToken(K token);
+    Info<K, V, E> getInfoByToken(K token);
 
     /**
-     * 获取id对应的信息列表
+     * 获取信息列表，通过id
      *
      * @param id id
      * @return 信息列表
      */
-    List<Info<K, V, E>> getInfoForId(V id);
+    List<Info<K, V, E>> getInfoById(V id);
 
     /**
      * 信息

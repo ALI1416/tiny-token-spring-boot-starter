@@ -26,11 +26,11 @@ public class TinyTokenAutoConfiguration {
      */
     private static final Logger log = LoggerFactory.getLogger(TinyTokenAutoConfiguration.class);
     /**
-     * token名称默认值{@value}
+     * 名称默认值{@value}
      */
     private static final String DEFAULT_NAME = "tinytoken";
     /**
-     * token过期时间默认值{@value}秒(30天)
+     * 过期时间默认值{@value}秒(30天)
      */
     private static final long DEFAULT_TIMEOUT = 2592000L;
 
@@ -53,13 +53,22 @@ public class TinyTokenAutoConfiguration {
      */
     @PostConstruct
     public void init() {
+        log.info("读取配置...");
+        String msg = "名称NAME ";
         if (tinyTokenProperties.getName() == null) {
             tinyTokenProperties.setName(DEFAULT_NAME);
+            msg += DEFAULT_NAME + " (默认)";
+        } else {
+            msg += tinyTokenProperties.getName() + " ";
         }
+        msg += "，过期时间TIMEOUT ";
         if (tinyTokenProperties.getTimeout() == null) {
             tinyTokenProperties.setTimeout(DEFAULT_TIMEOUT);
+            msg += DEFAULT_TIMEOUT + " (秒)(默认)";
+        } else {
+            msg += tinyTokenProperties.getTimeout() + " (秒)";
         }
-        log.info("初始化TinyToken，NAME为：{}，TIMEOUT为：{}", tinyTokenProperties.getName(), tinyTokenProperties.getTimeout());
+        log.info(msg);
     }
 
 }

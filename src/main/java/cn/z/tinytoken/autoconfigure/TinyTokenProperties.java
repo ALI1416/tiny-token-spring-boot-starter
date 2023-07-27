@@ -21,11 +21,11 @@ public class TinyTokenProperties {
     public static final String TINY_TOKEN_PREFIX = "tiny-token";
 
     /**
-     * token名称(默认值"tinytoken")
+     * 名称(默认值"tinytoken")
      */
     private String name;
     /**
-     * token过期时间(秒)(默认值2592000[30天])<br>
+     * 过期时间(秒)(默认值2592000[30天])<br>
      * -1:不过期
      */
     private Long timeout;
