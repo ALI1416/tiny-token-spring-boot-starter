@@ -1,6 +1,7 @@
 package cn.z.tinytoken;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <h1>轻量级权限认证接口</h1>
@@ -20,12 +21,36 @@ import java.util.List;
 public interface TinyToken<K, V, E> {
 
     /**
+     * 设置token，token使用UUID，过期时间使用默认值
+     *
+     * @param id id
+     * @return token
+     */
+    K setToken(V id);
+
+    /**
+     * 设置token，token使用UUID
+     *
+     * @param id      id
+     * @param timeout 过期时间(秒)
+     * @return token
+     */
+    K setToken(V id, int timeout);
+
+    /**
+     * 设置token，过期时间使用默认值
+     *
+     * @param token token
+     * @param id    id
+     */
+    void setToken(K token, V id);
+
+    /**
      * 设置token
      *
      * @param token   token
      * @param id      id
-     * @param timeout 过期时间(秒)<br>
-     *                -1:不过期
+     * @param timeout 过期时间(秒)
      */
     void setToken(K token, V id, int timeout);
 
@@ -35,30 +60,36 @@ public interface TinyToken<K, V, E> {
      * @param token   token
      * @param id      id
      * @param extra   拓展内容
-     * @param timeout 过期时间(秒)<br>
-     *                -1:不过期
+     * @param timeout 过期时间(秒)
      */
     void setToken(K token, V id, E extra, long timeout);
 
     /**
-     * 获取token
+     * 获取token，通过当前Context，不判断是否有效
      *
-     * @return token
+     * @return token(不存在返回null)
      */
     K getToken();
 
     /**
-     * 获取token列表，通过id
+     * 获取token，通过当前Context，并判断是否有效
      *
-     * @param id id
-     * @return token列表
+     * @return token(不存在或无效返回null)
      */
-    List<K> getToken(V id);
+    K getTokenValid();
 
     /**
-     * 获取id
+     * 获取token列表，通过id
      *
-     * @return id
+     * @param id id(不存在返回[])
+     * @return token列表
+     */
+    Set<K> getToken(V id);
+
+    /**
+     * 获取id，通过当前Context
+     *
+     * @return id(不存在返回null)
      */
     V getId();
 
@@ -66,9 +97,46 @@ public interface TinyToken<K, V, E> {
      * 获取id，通过token
      *
      * @param token token
-     * @return id
+     * @return id(不存在返回null)
      */
     V getId(K token);
+
+    /**
+     * 获取过期时间，通过当前Context
+     *
+     * @return 过期时间(秒)(不存在返回null ， 不过期返回 - 1)
+     */
+    Long getTimeoutByToken();
+
+    /**
+     * 获取过期时间，通过token
+     *
+     * @param token token
+     * @return 过期时间(秒)(不存在返回null ， 不过期返回 - 1)
+     */
+    Long getTimeoutByToken(K token);
+
+    /**
+     * 获取过期时间，通过token
+     *
+     * @param id id
+     * @return 过期时间(秒)列表(不存在返回[] ， 不过期返回 - 1)
+     */
+    List<Long> getTimeoutById(V id);
+
+    /**
+     * token是否存在
+     *
+     * @param token token
+     */
+    boolean existByToken(K token);
+
+    /**
+     * id是否存在
+     *
+     * @param id id
+     */
+    boolean existById(V id);
 
     /**
      * 删除，通过token
@@ -88,7 +156,7 @@ public interface TinyToken<K, V, E> {
      * 获取信息，通过token
      *
      * @param token token
-     * @return 信息
+     * @return 信息(不存在返回null)
      */
     Info<K, V, E> getInfoByToken(K token);
 
@@ -96,7 +164,7 @@ public interface TinyToken<K, V, E> {
      * 获取信息列表，通过id
      *
      * @param id id
-     * @return 信息列表
+     * @return 信息列表(不存在返回[])
      */
     List<Info<K, V, E>> getInfoById(V id);
 

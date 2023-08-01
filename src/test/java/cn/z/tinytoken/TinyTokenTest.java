@@ -1,6 +1,5 @@
 package cn.z.tinytoken;
 
-import cn.z.tinytoken.spring.T4s;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;

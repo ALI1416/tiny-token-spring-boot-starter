@@ -25,8 +25,7 @@ public class TinyTokenProperties {
      */
     private String name;
     /**
-     * 过期时间(秒)(默认值2592000[30天])<br>
-     * -1:不过期
+     * 过期时间(秒)(默认值2592000[30天])
      */
     private Long timeout;
 
