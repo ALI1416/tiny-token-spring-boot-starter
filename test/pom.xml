@@ -1,0 +1,60 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.demo</groupId>
+  <artifactId>tiny-token-spring-boot-starter-test</artifactId>
+  <version>1.0.0</version>
+
+  <name>tiny-token-spring-boot-starter-test</name>
+  <description>Tiny Token SpringBoot Starter Test 轻量级权限认证SpringBoot启动器测试</description>
+  <url>https://github.com/ALI1416/tiny-token-spring-boot-starter</url>
+
+  <scm>
+    <url>git@github.com:ALI1416/tiny-token-spring-boot-starter.git</url>
+    <connection>scm:git@github.com:ALI1416/tiny-token-spring-boot-starter.git</connection>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>cn.404z</groupId>
+      <artifactId>tiny-token-spring-boot-starter</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <version>2.7.14</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
+      <version>2.7.14</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
+      <version>2.7.14</version>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba.fastjson2</groupId>
+      <artifactId>fastjson2</artifactId>
+      <version>2.0.37</version>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba.fastjson2</groupId>
+      <artifactId>fastjson2-extension-spring5</artifactId>
+      <version>2.0.37</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.28</version>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+
+</project>
