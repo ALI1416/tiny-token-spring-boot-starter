@@ -35,7 +35,7 @@ public interface TinyToken<K, V, E> {
      * @param timeout 过期时间(秒)
      * @return token
      */
-    K setToken(V id, int timeout);
+    K setToken(V id, long timeout);
 
     /**
      * 设置token，过期时间使用默认值
@@ -52,7 +52,7 @@ public interface TinyToken<K, V, E> {
      * @param id      id
      * @param timeout 过期时间(秒)
      */
-    void setToken(K token, V id, int timeout);
+    void setToken(K token, V id, long timeout);
 
     /**
      * 设置token
@@ -81,8 +81,8 @@ public interface TinyToken<K, V, E> {
     /**
      * 获取token列表，通过id
      *
-     * @param id id(不存在返回[])
-     * @return token列表
+     * @param id id
+     * @return token列表(不存在返回[])
      */
     Set<K> getToken(V id);
 
@@ -102,32 +102,10 @@ public interface TinyToken<K, V, E> {
     V getId(K token);
 
     /**
-     * 获取过期时间，通过当前Context
-     *
-     * @return 过期时间(秒)(不存在返回null ， 不过期返回 - 1)
-     */
-    Long getTimeoutByToken();
-
-    /**
-     * 获取过期时间，通过token
-     *
-     * @param token token
-     * @return 过期时间(秒)(不存在返回null ， 不过期返回 - 1)
-     */
-    Long getTimeoutByToken(K token);
-
-    /**
-     * 获取过期时间，通过token
-     *
-     * @param id id
-     * @return 过期时间(秒)列表(不存在返回[] ， 不过期返回 - 1)
-     */
-    List<Long> getTimeoutById(V id);
-
-    /**
      * token是否存在
      *
      * @param token token
+     * @return 是否存在
      */
     boolean existByToken(K token);
 
@@ -135,6 +113,7 @@ public interface TinyToken<K, V, E> {
      * id是否存在
      *
      * @param id id
+     * @return 是否存在
      */
     boolean existById(V id);
 
@@ -142,15 +121,34 @@ public interface TinyToken<K, V, E> {
      * 删除，通过token
      *
      * @param token token
+     * @return 是否成功
      */
-    void deleteByToken(K token);
+    Boolean deleteByToken(K token);
 
     /**
      * 删除，通过id
      *
      * @param id id
+     * @return 成功个数
      */
-    void deleteById(V id);
+    Long deleteById(V id);
+
+    /**
+     * 设置过期时间，通过token
+     *
+     * @param token   token
+     * @param timeout 过期时间(秒)
+     * @return 是否成功
+     */
+    Boolean expire(K token, long timeout);
+
+    /**
+     * 设置永不过期，通过token
+     *
+     * @param token token
+     * @return 是否成功
+     */
+    Boolean persist(K token);
 
     /**
      * 获取信息，通过token

@@ -12,7 +12,10 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -66,26 +69,6 @@ public class Rt {
         redisTemplate.setValueSerializer(fastJsonRedisSerializer);
         redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);
         redisTemplate.afterPropertiesSet();
-    }
-
-    /**
-     * key是否存在(exists)
-     *
-     * @param key 键
-     * @return 是否存在
-     */
-    public Boolean exists(String key) {
-        return redisTemplate.hasKey(key);
-    }
-
-    /**
-     * 集合中存在的key的数量(exists)
-     *
-     * @param keys 键(重复会计算多次)
-     * @return 数量
-     */
-    public Long existsCount(Collection<String> keys) {
-        return redisTemplate.countExistingKeys(keys);
     }
 
     /**
@@ -147,17 +130,6 @@ public class Rt {
     }
 
     /**
-     * 指定失效日期(expire)
-     *
-     * @param key  键
-     * @param date 失效日期
-     * @return 是否成功
-     */
-    public Boolean expireAt(String key, Date date) {
-        return redisTemplate.expireAt(key, date);
-    }
-
-    /**
      * 指定为持久数据(persist)
      *
      * @param key 键
@@ -175,17 +147,6 @@ public class Rt {
      */
     public Long getExpire(String key) {
         return redisTemplate.getExpire(key);
-    }
-
-    /**
-     * 放入(set)
-     *
-     * @param <T>   指定数据类型
-     * @param key   键(已存在会被覆盖)
-     * @param value 值
-     */
-    public <T> void set(String key, T value) {
-        redisTemplate.opsForValue().set(key, value);
     }
 
     /**

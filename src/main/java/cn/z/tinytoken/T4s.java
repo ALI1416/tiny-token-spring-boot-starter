@@ -5,20 +5,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * <h1>轻量级权限认证Spring实现</h1>
  *
+ * <h3>token类型:String</h3>
+ * <h3>id类型:Long</h3>
+ * <h3>拓展内容类型:Void</h3>
+ *
+ * <p>
+ * 使用Redis储存token<br>
+ * 键名：前缀:id:token<br>
+ * 值：空字符串
+ * </p>
+ *
  * <p>
  * createDate 2023/07/24 10:09:31
  * </p>
- *
- * <p>token的类型:String</p>
- * <p>id的类型:Long</p>
- * <p>没有拓展内容</p>
  *
  * @author ALI[ali-k@foxmail.com]
  * @since 1.0.0
@@ -57,7 +61,7 @@ public class T4s implements TinyToken<String, Long, Void> {
     @Override
     public String setToken(Long id) {
         String token = UUID.randomUUID().toString();
-        rt.set(name + ":" + id + ":" + token, name, timeout);
+        setToken(token, id, timeout);
         return token;
     }
 
@@ -69,9 +73,9 @@ public class T4s implements TinyToken<String, Long, Void> {
      * @return token
      */
     @Override
-    public String setToken(Long id, int timeout) {
+    public String setToken(Long id, long timeout) {
         String token = UUID.randomUUID().toString();
-        rt.set(name + ":" + id + ":" + token, name, timeout);
+        setToken(token, id, timeout);
         return token;
     }
 
@@ -83,7 +87,7 @@ public class T4s implements TinyToken<String, Long, Void> {
      */
     @Override
     public void setToken(String token, Long id) {
-        rt.set(name + ":" + id + ":" + token, name, timeout);
+        setToken(token, id, timeout);
     }
 
     /**
@@ -94,8 +98,8 @@ public class T4s implements TinyToken<String, Long, Void> {
      * @param timeout 过期时间(秒)
      */
     @Override
-    public void setToken(String token, Long id, int timeout) {
-        rt.set(name + ":" + id + ":" + token, name, timeout);
+    public void setToken(String token, Long id, long timeout) {
+        rt.set(name + ":" + id + ":" + token, "", timeout);
     }
 
     /**
@@ -108,7 +112,7 @@ public class T4s implements TinyToken<String, Long, Void> {
      */
     @Override
     public void setToken(String token, Long id, Void extra, long timeout) {
-        throw new TinyTokenException("没有实现此方法！");
+        throw new TinyTokenException("此方法不可用！");
     }
 
     /**
@@ -129,24 +133,53 @@ public class T4s implements TinyToken<String, Long, Void> {
     @Override
     public String getTokenValid() {
         String token = getToken();
-        if (token != null) {
-            Set<String> scan = rt.scan(name + ":*:" + token);
-            if (!scan.isEmpty()) {
-                return token;
-            }
+        if (token != null && existByToken(token)) {
+            return token;
         }
         return null;
     }
 
     /**
+     * 获取键，通过token
+     *
+     * @param token token
+     * @return 键(不存在返回null)
+     */
+    private String getKey(String token) {
+        Set<String> scan = rt.scan(name + ":*:" + token);
+        if (!scan.isEmpty()) {
+            return scan.stream().findFirst().get();
+        }
+        return null;
+    }
+
+    /**
+     * 获取键列表，通过id
+     *
+     * @param id id
+     * @return 键列表(不存在返回[])
+     */
+    private Set<String> getKey(Long id) {
+        return rt.scan(name + ":" + id + ":*");
+    }
+
+    /**
      * 获取token列表，通过id
      *
-     * @param id id(不存在返回[])
-     * @return token列表
+     * @param id id
+     * @return token列表(不存在返回[])
      */
     @Override
     public Set<String> getToken(Long id) {
-        return rt.scan(name + ":" + id + ":*");
+        Set<String> tokens = new HashSet<>();
+        Set<String> keys = getKey(id);
+        for (String key : keys) {
+            String[] split = key.split(":", -1);
+            if (split.length == 3) {
+                tokens.add(split[2]);
+            }
+        }
+        return tokens;
     }
 
     /**
@@ -171,9 +204,9 @@ public class T4s implements TinyToken<String, Long, Void> {
      */
     @Override
     public Long getId(String token) {
-        Set<String> scan = rt.scan(name + ":*:" + token);
-        if (!scan.isEmpty()) {
-            String[] split = scan.stream().findFirst().get().split(":", -1);
+        String key = getKey(token);
+        if (key != null) {
+            String[] split = key.split(":", -1);
             if (split.length == 3) {
                 return Long.parseLong(split[1]);
             }
@@ -182,83 +215,82 @@ public class T4s implements TinyToken<String, Long, Void> {
     }
 
     /**
-     * 获取过期时间，通过当前Context
-     *
-     * @return 过期时间(秒)(不存在返回null ， 不过期返回 - 1)
-     */
-    @Override
-    public Long getTimeoutByToken() {
-        String token = getToken();
-        if (token != null) {
-            return getTimeoutByToken(token);
-        }
-        return null;
-    }
-
-    /**
-     * 获取过期时间，通过token
-     *
-     * @param token token
-     * @return 过期时间(秒)(不存在返回null ， 不过期返回 - 1)
-     */
-    @Override
-    public Long getTimeoutByToken(String token) {
-        Long expire = rt.getExpire(token);
-        if (expire == -2) {
-            return null;
-        }
-        return expire;
-    }
-
-    /**
-     * 获取过期时间，通过token
-     *
-     * @param id id
-     * @return 过期时间(秒)列表(不存在返回[] ， 不过期返回 - 1)
-     */
-    @Override
-    public List<Long> getTimeoutById(Long id) {
-        return null;
-    }
-
-    /**
      * token是否存在
      *
      * @param token token
+     * @return 是否存在
      */
     @Override
     public boolean existByToken(String token) {
-        return false;
+        return !rt.scan(name + ":*:" + token).isEmpty();
     }
 
     /**
      * id是否存在
      *
      * @param id id
+     * @return 是否存在
      */
     @Override
     public boolean existById(Long id) {
-        return false;
+        return !getKey(id).isEmpty();
     }
 
     /**
      * 删除，通过token
      *
      * @param token token
+     * @return 是否成功
      */
     @Override
-    public void deleteByToken(String token) {
-
+    public Boolean deleteByToken(String token) {
+        String key = getKey(token);
+        if (key != null) {
+            return rt.delete(key);
+        }
+        return false;
     }
 
     /**
      * 删除，通过id
      *
      * @param id id
+     * @return 成功个数
      */
     @Override
-    public void deleteById(Long id) {
+    public Long deleteById(Long id) {
+        return rt.deleteMulti(getKey(id));
+    }
 
+    /**
+     * 设置过期时间，通过token
+     *
+     * @param token   token
+     * @param timeout 过期时间(秒)
+     * @return 是否成功
+     */
+    @Override
+    public Boolean expire(String token, long timeout) {
+        String key = getKey(token);
+        if (key != null) {
+            return rt.expire(key, timeout);
+        }
+        return false;
+    }
+
+    /**
+     * 设置永不过期，通过token
+     *
+     * @param token token
+     * @return 是否成功
+     */
+    @Override
+    public Boolean persist(String token) {
+        String key = getKey(token);
+        if (key != null) {
+            return rt.persist(key);
+        }
+        return false;
     }
 
     /**
@@ -269,6 +301,16 @@ public class T4s implements TinyToken<String, Long, Void> {
      */
     @Override
     public Info<String, Long, Void> getInfoByToken(String token) {
+        String key = getKey(token);
+        if (key != null) {
+            Long expire = rt.getExpire(key);
+            if (expire > -2) {
+                String[] split = key.split(":", -1);
+                if (split.length == 3) {
+                    return new Info<>(token, Long.parseLong(split[1]), expire);
+                }
+            }
+        }
         return null;
     }
 
@@ -280,7 +322,18 @@ public class T4s implements TinyToken<String, Long, Void> {
      */
     @Override
     public List<Info<String, Long, Void>> getInfoById(Long id) {
-        return null;
+        List<Info<String, Long, Void>> list = new ArrayList<>();
+        Set<String> keys = getKey(id);
+        for (String key : keys) {
+            Long expire = rt.getExpire(key);
+            if (expire > -2) {
+                String[] split = key.split(":", -1);
+                if (split.length == 3) {
+                    list.add(new Info<>(split[2], id, expire));
+                }
+            }
+        }
+        return list;
     }
 
 }
