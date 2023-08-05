@@ -1,9 +1,9 @@
 {
   "properties": [
     {
-      "name": "tiny-token.name",
+      "name": "tiny-token.prefix",
       "type": "java.lang.String",
-      "description": "名称.",
+      "description": "前缀.",
       "sourceType": "cn.z.tinytoken.autoconfigure.TinyTokenProperties",
       "defaultValue": "tinytoken"
     },

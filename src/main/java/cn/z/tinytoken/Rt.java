@@ -12,10 +12,9 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -103,8 +102,8 @@ public class Rt {
      *              \ : 转义(字符*?[]^-\等)
      * @return 键列表
      */
-    public Set<String> scan(String match) {
-        Set<String> keys = new HashSet<>();
+    public List<String> scan(String match) {
+        List<String> keys = new ArrayList<>();
         Cursor<String> cursor = (Cursor<String>) redisTemplate.executeWithStickyConnection( //
                 connection -> new ConvertingCursor<>( //
                         connection.scan(ScanOptions.scanOptions().match(match).count(1000).build()), //

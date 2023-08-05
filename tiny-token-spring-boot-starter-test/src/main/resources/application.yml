@@ -7,5 +7,5 @@ spring:
     timeout: 10s
 
 tiny-token:
-  name: tinytoken
+  prefix: tinytoken
   timeout: 2592000

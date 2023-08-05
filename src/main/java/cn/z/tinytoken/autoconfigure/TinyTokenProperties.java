@@ -21,20 +21,20 @@ public class TinyTokenProperties {
     public static final String TINY_TOKEN_PREFIX = "tiny-token";
 
     /**
-     * 名称(默认值"tinytoken")
+     * 前缀(默认值"tinytoken")
      */
-    private String name;
+    private String prefix;
     /**
      * 过期时间(秒)(默认值2592000[30天])
      */
     private Long timeout;
 
-    public String getName() {
-        return name;
+    public String getPrefix() {
+        return prefix;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
     public Long getTimeout() {

@@ -1,7 +1,6 @@
 package cn.z.tinytoken;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * <h1>轻量级权限认证接口</h1>
@@ -10,96 +9,103 @@ import java.util.Set;
  * createDate 2023/07/24 10:09:31
  * </p>
  *
- * @param <K> token的类型<br>
- *            推荐String
- * @param <V> id的类型<br>
- *            推荐Long、Integer、String
- * @param <E> 拓展内容的类型
+ * @param <ID> id类型<br>
+ *             推荐Long、Integer、String
+ * @param <K>  token类型<br>
+ *             推荐String
+ * @param <V>  拓展内容类型
  * @author ALI[ali-k@foxmail.com]
  * @since 1.0.0
  **/
-public interface TinyToken<K, V, E> {
+public interface TinyToken<ID, K, V> {
 
     /**
-     * 设置token，token使用UUID，过期时间使用默认值
+     * 设置token(token使用UUID 过期时间使用默认值)
      *
      * @param id id
      * @return token
      */
-    K setToken(V id);
+    K setToken(ID id);
 
     /**
-     * 设置token，token使用UUID
+     * 设置token(token使用UUID)
      *
      * @param id      id
      * @param timeout 过期时间(秒)
      * @return token
      */
-    K setToken(V id, long timeout);
+    K setToken(ID id, long timeout);
 
     /**
-     * 设置token，过期时间使用默认值
+     * 设置token(过期时间使用默认值)
      *
-     * @param token token
      * @param id    id
+     * @param token token
      */
-    void setToken(K token, V id);
+    void setToken(ID id, K token);
 
     /**
      * 设置token
      *
-     * @param token   token
      * @param id      id
+     * @param token   token
      * @param timeout 过期时间(秒)
      */
-    void setToken(K token, V id, long timeout);
+    void setToken(ID id, K token, long timeout);
 
     /**
      * 设置token
      *
-     * @param token   token
      * @param id      id
+     * @param token   token
      * @param extra   拓展内容
      * @param timeout 过期时间(秒)
      */
-    void setToken(K token, V id, E extra, long timeout);
+    void setToken(ID id, K token, V extra, long timeout);
 
     /**
-     * 获取token，通过当前Context，不判断是否有效
+     * 获取token(当前Context 不判断是否有效)
      *
      * @return token(不存在返回null)
      */
     K getToken();
 
     /**
-     * 获取token，通过当前Context，并判断是否有效
+     * 获取token(通过当前Context 判断是否有效)
      *
      * @return token(不存在或无效返回null)
      */
     K getTokenValid();
 
     /**
-     * 获取token列表，通过id
+     * 获取token列表
      *
      * @param id id
      * @return token列表(不存在返回[])
      */
-    Set<K> getToken(V id);
+    List<K> getToken(ID id);
 
     /**
-     * 获取id，通过当前Context
+     * 获取id(当前Context)
      *
      * @return id(不存在返回null)
      */
-    V getId();
+    ID getId();
 
     /**
-     * 获取id，通过token
+     * 获取id
      *
      * @param token token
      * @return id(不存在返回null)
      */
-    V getId(K token);
+    ID getId(K token);
+
+    /**
+     * token是否存在，通过当前Context
+     *
+     * @return 是否存在
+     */
+    boolean existByToken();
 
     /**
      * token是否存在
@@ -115,10 +121,17 @@ public interface TinyToken<K, V, E> {
      * @param id id
      * @return 是否存在
      */
-    boolean existById(V id);
+    boolean existById(ID id);
 
     /**
-     * 删除，通过token
+     * 删除(当前Context)
+     *
+     * @return 是否成功
+     */
+    Boolean deleteByToken();
+
+    /**
+     * 删除
      *
      * @param token token
      * @return 是否成功
@@ -126,15 +139,23 @@ public interface TinyToken<K, V, E> {
     Boolean deleteByToken(K token);
 
     /**
-     * 删除，通过id
+     * 删除
      *
      * @param id id
      * @return 成功个数
      */
-    Long deleteById(V id);
+    Long deleteById(ID id);
 
     /**
-     * 设置过期时间，通过token
+     * 设置过期时间(当前Context)
+     *
+     * @param timeout 过期时间(秒)
+     * @return 是否成功
+     */
+    Boolean expire(long timeout);
+
+    /**
+     * 设置过期时间
      *
      * @param token   token
      * @param timeout 过期时间(秒)
@@ -143,7 +164,14 @@ public interface TinyToken<K, V, E> {
     Boolean expire(K token, long timeout);
 
     /**
-     * 设置永不过期，通过token
+     * 设置永不过期(当前Context)
+     *
+     * @return 是否成功
+     */
+    Boolean persist();
+
+    /**
+     * 设置永不过期
      *
      * @param token token
      * @return 是否成功
@@ -151,44 +179,69 @@ public interface TinyToken<K, V, E> {
     Boolean persist(K token);
 
     /**
-     * 获取信息，通过token
+     * 获取信息(当前Context)
+     *
+     * @return 信息(不存在返回null)
+     */
+    Info<ID, K> getInfoByToken();
+
+    /**
+     * 获取信息
      *
      * @param token token
      * @return 信息(不存在返回null)
      */
-    Info<K, V, E> getInfoByToken(K token);
+    Info<ID, K> getInfoByToken(K token);
 
     /**
-     * 获取信息列表，通过id
+     * 获取信息列表
      *
      * @param id id
      * @return 信息列表(不存在返回[])
      */
-    List<Info<K, V, E>> getInfoById(V id);
+    List<Info<ID, K>> getInfoById(ID id);
+
+    /**
+     * 获取信息拓展(当前Context)
+     *
+     * @return 信息拓展(不存在返回null)
+     */
+    InfoExtra<ID, K, V> getInfoExtraByToken();
+
+    /**
+     * 获取信息拓展
+     *
+     * @param token token
+     * @return 信息拓展(不存在返回null)
+     */
+    InfoExtra<ID, K, V> getInfoExtraByToken(K token);
+
+    /**
+     * 获取信息拓展列表
+     *
+     * @param id id
+     * @return 信息拓展列表(不存在返回[])
+     */
+    List<InfoExtra<ID, K, V>> getInfoExtraById(ID id);
 
     /**
      * 信息
      *
-     * @param <K> token的类型<br>
-     *            推荐String
-     * @param <V> id的类型<br>
-     *            推荐Long、Integer、String
-     * @param <E> 拓展内容的类型
+     * @param <ID> id类型<br>
+     *             推荐Long、Integer、String
+     * @param <K>  token类型<br>
+     *             推荐String
      */
-    class Info<K, V, E> {
+    class Info<ID, K> {
 
+        /**
+         * id
+         */
+        private final ID id;
         /**
          * token
          */
         private final K token;
-        /**
-         * id
-         */
-        private final V id;
-        /**
-         * 拓展内容
-         */
-        private final E extra;
         /**
          * 过期时间(秒)<br>
          * -1:不过期
@@ -198,21 +251,12 @@ public interface TinyToken<K, V, E> {
         private Info() {
             this.token = null;
             this.id = null;
-            this.extra = null;
             this.timeout = -1;
         }
 
-        public Info(K token, V id, long timeout) {
+        public Info(ID id, K token, long timeout) {
             this.token = token;
             this.id = id;
-            this.extra = null;
-            this.timeout = timeout;
-        }
-
-        public Info(K token, V id, E extra, long timeout) {
-            this.token = token;
-            this.id = id;
-            this.extra = extra;
             this.timeout = timeout;
         }
 
@@ -220,12 +264,8 @@ public interface TinyToken<K, V, E> {
             return token;
         }
 
-        public V getId() {
+        public ID getId() {
             return id;
-        }
-
-        public E getExtra() {
-            return extra;
         }
 
         public long getTimeout() {
@@ -235,10 +275,50 @@ public interface TinyToken<K, V, E> {
         @Override
         public String toString() {
             return "Info{" +
-                    "token=" + token +
-                    ", id=" + id +
-                    ", extra=" + extra +
+                    "id=" + id +
+                    ", token=" + token +
                     ", timeout=" + timeout +
+                    '}';
+        }
+
+    }
+
+    /**
+     * 信息拓展
+     *
+     * @param <ID> id类型<br>
+     *             推荐Long、Integer、String
+     * @param <K>  token类型<br>
+     *             推荐String
+     * @param <V>  拓展内容类型
+     */
+    class InfoExtra<ID, K, V> extends Info<ID, K> {
+
+        /**
+         * 拓展内容
+         */
+        private final V extra;
+
+        private InfoExtra() {
+            this.extra = null;
+        }
+
+        public InfoExtra(ID id, K token, V extra, long timeout) {
+            super(id, token, timeout);
+            this.extra = extra;
+        }
+
+        public V getExtra() {
+            return extra;
+        }
+
+        @Override
+        public String toString() {
+            return "InfoExtra{" +
+                    "id=" + getId() +
+                    ", token=" + getToken() +
+                    ", timeout=" + getTimeout() +
+                    ", extra=" + extra +
                     '}';
         }
 
