@@ -11,10 +11,11 @@
   <description>Tiny Token SpringBoot Starter Test 轻量级权限认证SpringBoot启动器测试</description>
   <url>https://github.com/ALI1416/tiny-token-spring-boot-starter</url>
 
-  <scm>
-    <url>git@github.com:ALI1416/tiny-token-spring-boot-starter.git</url>
-    <connection>scm:git@github.com:ALI1416/tiny-token-spring-boot-starter.git</connection>
-  </scm>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.7.14</version>
+  </parent>
 
   <dependencies>
     <dependency>
@@ -25,19 +26,10 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-      <version>2.7.14</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-redis</artifactId>
-      <version>2.7.14</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <scope>runtime</scope>
-      <optional>true</optional>
-      <version>2.7.14</version>
     </dependency>
     <dependency>
       <groupId>com.alibaba.fastjson2</groupId>
@@ -50,11 +42,35 @@
       <version>2.0.37</version>
     </dependency>
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>1.18.28</version>
       <optional>true</optional>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <!--打包时排除的依赖-->
+          <excludes>
+            <exclude>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+            </exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

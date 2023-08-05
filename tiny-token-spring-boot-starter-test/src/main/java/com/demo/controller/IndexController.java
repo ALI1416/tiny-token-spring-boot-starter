@@ -100,6 +100,24 @@ public class IndexController {
     }
 
     /**
+     * 获取id(当前Context)<br>
+     * http://localhost:8080/getId
+     */
+    @GetMapping("getId")
+    public Long getId() {
+        return t4s.getId();
+    }
+
+    /**
+     * 获取id<br>
+     * http://localhost:8080/getId2?token=qwe
+     */
+    @GetMapping("getId2")
+    public Long getId(String token) {
+        return t4s.getId(token);
+    }
+
+    /**
      * token是否存在(当前Context)<br>
      * http://localhost:8080/existByToken
      */
