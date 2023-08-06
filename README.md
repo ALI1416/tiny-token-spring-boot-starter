@@ -14,7 +14,7 @@
 
 ## 简介
 
-轻量级token认证SpringBoot版，使用Redis、Fastjson2技术
+轻量级token认证SpringBoot版，使用Redis、Fastjson2等技术
 
 使用方法请看[项目示例](./tiny-token-spring-boot-starter-test)
 
@@ -24,7 +24,7 @@
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>

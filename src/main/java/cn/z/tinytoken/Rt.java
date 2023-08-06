@@ -34,7 +34,7 @@ public class Rt {
     private final RedisTemplate<String, Object> redisTemplate;
 
     /**
-     * 构造函数
+     * 构造函数(自动注入)
      *
      * @param factory RedisConnectionFactory
      */

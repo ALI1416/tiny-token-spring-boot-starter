@@ -41,13 +41,16 @@ public class T4s implements TinyToken<Long, String, String> {
      * 过期时间(秒)
      */
     private final Long timeout;
-
+    /**
+     * Redis模板类
+     */
     private final Rt rt;
 
     /**
-     * 构造函数
+     * 构造函数(自动注入)
      *
      * @param tinyTokenProperties TinyTokenProperties
+     * @param rt                  Rt
      */
     public T4s(TinyTokenProperties tinyTokenProperties, Rt rt) {
         this.prefix = tinyTokenProperties.getPrefix();
@@ -291,7 +294,11 @@ public class T4s implements TinyToken<Long, String, String> {
      */
     @Override
     public Long deleteById(Long id) {
-        return rt.deleteMulti(getKey(id));
+        List<String> keys = getKey(id);
+        if (!keys.isEmpty()) {
+            return rt.deleteMulti(keys);
+        }
+        return 0L;
     }
 
     /**
@@ -456,13 +463,15 @@ public class T4s implements TinyToken<Long, String, String> {
     public List<InfoExtra<Long, String, String>> getInfoExtraById(Long id) {
         List<InfoExtra<Long, String, String>> list = new ArrayList<>();
         List<String> keys = getKey(id);
-        List<Object> extras = rt.getMulti(keys);
-        for (int i = 0; i < keys.size(); i++) {
-            Long expire = rt.getExpire(keys.get(i));
-            if (expire > -2) {
-                String[] split = keys.get(i).split(":", -1);
-                if (split.length == 3) {
-                    list.add(new InfoExtra<>(id, split[2], (String) extras.get(i), expire));
+        if (!keys.isEmpty()) {
+            List<Object> extras = rt.getMulti(keys);
+            for (int i = 0; i < keys.size(); i++) {
+                Long expire = rt.getExpire(keys.get(i));
+                if (expire > -2) {
+                    String[] split = keys.get(i).split(":", -1);
+                    if (split.length == 3) {
+                        list.add(new InfoExtra<>(id, split[2], (String) extras.get(i), expire));
+                    }
                 }
             }
         }

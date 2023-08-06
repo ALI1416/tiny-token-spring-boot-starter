@@ -191,7 +191,7 @@ public class IndexController {
 
     /**
      * 设置永不过期(当前Context)<br>
-     * http://localhost:8080/persist?token=qwe
+     * http://localhost:8080/persist
      */
     @GetMapping("persist")
     public Boolean persist() {
@@ -209,7 +209,7 @@ public class IndexController {
 
     /**
      * 获取信息(当前Context)<br>
-     * http://localhost:8080/getInfoByToken?token=qwe
+     * http://localhost:8080/getInfoByToken
      */
     @GetMapping("getInfoByToken")
     public TinyToken.Info<Long, String> getInfoByToken() {
@@ -236,7 +236,7 @@ public class IndexController {
 
     /**
      * 获取拓展信息(当前Context)<br>
-     * http://localhost:8080/getInfoExtraByToken?token=qwe
+     * http://localhost:8080/getInfoExtraByToken
      */
     @GetMapping("getInfoExtraByToken")
     public TinyToken.InfoExtra<Long, String, String> getInfoExtraByToken() {
