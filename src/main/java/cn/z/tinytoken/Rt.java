@@ -4,7 +4,6 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONReader;
 import com.alibaba.fastjson2.JSONWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.ConvertingCursor;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
@@ -30,7 +29,13 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class Rt {
 
+    /**
+     * 秒
+     */
     private static final TimeUnit SECONDS = TimeUnit.SECONDS;
+    /**
+     * Redis模板
+     */
     private final RedisTemplate<String, Object> redisTemplate;
 
     /**
@@ -103,18 +108,13 @@ public class Rt {
      * @return 键列表
      */
     public List<String> scan(String match) {
-        List<String> keys = new ArrayList<>();
-        Cursor<String> cursor = (Cursor<String>) redisTemplate.executeWithStickyConnection( //
-                connection -> new ConvertingCursor<>( //
-                        connection.scan(ScanOptions.scanOptions().match(match).count(1000).build()), //
-                        redisTemplate.getKeySerializer()::deserialize));
-        if (cursor == null) {
-            return keys;
+        List<String> list = new ArrayList<>();
+        try (Cursor<String> cursor = redisTemplate.scan(ScanOptions.scanOptions().match(match).count(1000).build())) {
+            while (cursor.hasNext()) {
+                list.add(cursor.next());
+            }
         }
-        while (cursor.hasNext()) {
-            keys.add(cursor.next());
-        }
-        return keys;
+        return list;
     }
 
     /**
