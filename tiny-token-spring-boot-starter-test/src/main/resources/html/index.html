@@ -9,27 +9,38 @@
 </head>
 
 <body>
-<div id="tip"></div>
-<label for="id">ID：</label><input id="id" type="text" value="1">
-<input id="login" type="button" value="登录">
-<input id="unlogin" type="button" value="注销">
+<div>
+  <label for="urlText">URL：</label><input id="urlText" type="text" value="http://127.0.0.1:8080/">
+</div>
+<div>
+  <label for="prefixText">前缀：</label><input id="prefixText" type="text" value="tinytoken">
+</div>
+<div>
+  <label for="idText">ID：</label><input id="idText" type="text" value="1">
+</div>
+<div>
+  <input id="loginBtn" type="button" value="登录">
+  <input id="logoutBtn" type="button" value="注销">
+</div>
+<div id="tipDiv"></div>
 <script>
-  const url = 'http://127.0.0.1:8080/'
-  let token = localStorage['tinytoken']
+  let urlText = document.getElementById('urlText')
+  let prefixText = document.getElementById('prefixText')
+  let idText = document.getElementById('idText')
+  let loginBtn = document.getElementById('loginBtn')
+  let logoutBtn = document.getElementById('logoutBtn')
+  let tipDiv = document.getElementById('tipDiv')
 
-  let tipDiv = document.getElementById('tip')
-  let idText = document.getElementById('id')
-  let loginBtn = document.getElementById('login')
-  let unloginBtn = document.getElementById('unlogin')
+  let token = localStorage[prefixText.value]
 
   // 进入页面判断登录状态
-  if (typeof token === 'undefined') {
+  if (token === undefined) {
     tipDiv.innerText = '未登录'
   } else {
     getId().then(res => {
       if (res.length === 0) {
         tipDiv.innerText = '登录已过期'
-        localStorage.removeItem('tinytoken')
+        localStorage.removeItem(prefixText.value)
         token = undefined
       } else {
         tipDiv.innerText = '已登录账号[' + res + '] token[' + token + ']'
@@ -42,7 +53,7 @@
    */
   loginBtn.addEventListener('click', () => {
     login(idText.value).then(res => {
-      localStorage['tinytoken'] = res
+      localStorage[prefixText.value] = res
       token = res
       tipDiv.innerText = '登录成功，账号[' + idText.value + '] token[' + res + ']'
     })
@@ -51,14 +62,14 @@
   /**
    * 点击注销按钮
    */
-  unloginBtn.addEventListener('click', () => {
-    unlogin().then(res => {
+  logoutBtn.addEventListener('click', () => {
+    logout().then(res => {
       if (res === 'true') {
         tipDiv.innerText = '注销token[' + token + ']成功'
       } else {
         tipDiv.innerText = '注销token[' + token + ']失败'
       }
-      localStorage.removeItem('tinytoken')
+      localStorage.removeItem(prefixText.value)
       token = undefined
     })
   })
@@ -80,12 +91,12 @@
   /**
    * 注销
    */
-  function unlogin() {
+  function logout() {
     return myFetch('deleteByToken')
   }
 
   function myFetch(path) {
-    return fetch(url + path, {headers: {mode: 'no-cors', tinytoken: token}}).then(res => res.text())
+    return fetch(urlText.value + path, {headers: {mode: 'no-cors', [prefixText.value]: token}}).then(res => res.text())
   }
 </script>
 </body>

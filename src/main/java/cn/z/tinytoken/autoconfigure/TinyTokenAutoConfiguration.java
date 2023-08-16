@@ -53,8 +53,7 @@ public class TinyTokenAutoConfiguration {
      */
     @PostConstruct
     public void init() {
-        log.info("读取配置...");
-        String msg = "前缀PREFIX ";
+        String msg = "TinyToken配置：前缀PREFIX ";
         if (tinyTokenProperties.getPrefix() == null) {
             tinyTokenProperties.setPrefix(DEFAULT_PREFIX);
             msg += DEFAULT_PREFIX + " (默认)";
@@ -64,7 +63,7 @@ public class TinyTokenAutoConfiguration {
         msg += "，过期时间TIMEOUT ";
         if (tinyTokenProperties.getTimeout() == null) {
             tinyTokenProperties.setTimeout(DEFAULT_TIMEOUT);
-            msg += DEFAULT_TIMEOUT + " (秒)(默认)";
+            msg += DEFAULT_TIMEOUT + " (秒)[30天](默认)";
         } else {
             msg += tinyTokenProperties.getTimeout() + " (秒)";
         }
