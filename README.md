@@ -24,27 +24,27 @@
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-web</artifactId>
-  <version>2.7.14</version>
+  <version>2.7.15</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-data-redis</artifactId>
-  <version>2.7.14</version>
+  <version>2.7.15</version>
 </dependency>
 <dependency>
   <groupId>com.alibaba.fastjson2</groupId>
   <artifactId>fastjson2</artifactId>
-  <version>2.0.37</version>
+  <version>2.0.39</version>
 </dependency>
 <dependency>
   <groupId>com.alibaba.fastjson2</groupId>
   <artifactId>fastjson2-extension-spring5</artifactId>
-  <version>2.0.37</version>
+  <version>2.0.39</version>
 </dependency>
 <dependency>
   <groupId>org.projectlombok</groupId>
