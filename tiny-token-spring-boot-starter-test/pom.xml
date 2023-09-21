@@ -9,7 +9,6 @@
 
   <name>tiny-token-spring-boot-starter-test</name>
   <description>Tiny Token SpringBoot Starter Test 轻量级权限认证SpringBoot启动器测试</description>
-  <url>https://github.com/ALI1416/tiny-token-spring-boot-starter</url>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -58,10 +57,18 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <!--打包时排除的依赖-->
           <excludes>
             <exclude>
               <groupId>org.projectlombok</groupId>

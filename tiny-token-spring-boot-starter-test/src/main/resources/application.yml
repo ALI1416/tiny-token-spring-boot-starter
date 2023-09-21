@@ -1,4 +1,11 @@
 spring:
+  devtools:
+    restart:
+      enabled: true
+  servlet:
+    multipart:
+      max-file-size: 4GB
+      max-request-size: 4GB
   redis:
     database: 0
     host: 127.0.0.1
@@ -9,3 +16,9 @@ spring:
 tiny-token:
   prefix: tinytoken
   timeout: 2592000
+
+logging:
+  level:
+    root: info
+  file:
+    name: /log/tiny-token-spring-boot-starter-test.log
