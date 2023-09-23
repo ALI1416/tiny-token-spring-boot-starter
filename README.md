@@ -42,11 +42,6 @@
   <version>2.0.39</version>
 </dependency>
 <dependency>
-  <groupId>com.alibaba.fastjson2</groupId>
-  <artifactId>fastjson2-extension-spring5</artifactId>
-  <version>2.0.39</version>
-</dependency>
-<dependency>
   <groupId>org.projectlombok</groupId>
   <artifactId>lombok</artifactId>
   <version>1.18.28</version>
