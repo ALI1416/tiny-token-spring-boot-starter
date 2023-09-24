@@ -35,7 +35,7 @@ public class TinyTokenAutoConfiguration {
     private static final long DEFAULT_TIMEOUT = 2592000L;
 
     /**
-     * TinyTokenProperties
+     * 轻量级权限认证配置属性
      */
     private final TinyTokenProperties tinyTokenProperties;
 
