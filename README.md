@@ -14,9 +14,9 @@
 
 ## 简介
 
-轻量级权限认证SpringBoot版，使用Redis、Fastjson2等技术
+轻量级权限认证SpringBoot实现，使用Redis、雪花ID等技术
 
-使用方法请看[项目示例](./tiny-token-spring-boot-starter-test)
+使用方法请看[项目示例](./test/tiny-token-spring-boot-starter-test)
 
 ## 依赖导入
 
@@ -24,7 +24,7 @@
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.0.3</version>
+  <version>1.1.0</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
@@ -37,9 +37,9 @@
   <version>2.7.15</version>
 </dependency>
 <dependency>
-  <groupId>com.alibaba.fastjson2</groupId>
-  <artifactId>fastjson2</artifactId>
-  <version>2.0.39</version>
+  <groupId>cn.404z</groupId>
+  <artifactId>id-spring-boot-autoconfigure</artifactId>
+  <version>3.0.1</version>
 </dependency>
 <dependency>
   <groupId>org.projectlombok</groupId>

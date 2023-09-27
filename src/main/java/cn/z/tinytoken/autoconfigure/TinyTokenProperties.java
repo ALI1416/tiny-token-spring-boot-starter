@@ -12,22 +12,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author ALI[ali-k@foxmail.com]
  * @since 1.0.0
  */
-@ConfigurationProperties(prefix = TinyTokenProperties.TINY_TOKEN_PREFIX)
+@ConfigurationProperties(prefix = "tiny-token")
 public class TinyTokenProperties {
-
-    /**
-     * 前缀{@value}
-     */
-    public static final String TINY_TOKEN_PREFIX = "tiny-token";
 
     /**
      * 前缀(默认值"tinytoken")
      */
-    private String prefix;
+    private String prefix = "tinytoken";
     /**
      * 过期时间(秒)(默认值2592000[30天])
      */
-    private Long timeout;
+    private long timeout = 2592000L;
 
     public String getPrefix() {
         return prefix;
@@ -37,11 +32,11 @@ public class TinyTokenProperties {
         this.prefix = prefix;
     }
 
-    public Long getTimeout() {
+    public long getTimeout() {
         return timeout;
     }
 
-    public void setTimeout(Long timeout) {
+    public void setTimeout(long timeout) {
         this.timeout = timeout;
     }
 

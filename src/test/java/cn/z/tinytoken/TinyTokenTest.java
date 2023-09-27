@@ -1,5 +1,6 @@
 package cn.z.tinytoken;
 
+import cn.z.id.Id;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -39,12 +40,26 @@ class TinyTokenTest {
      */
     @Test
     void test00Normal() {
+        String tokenValue = "1234";
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader("tinytoken", "1234");
+        request.addHeader("tinytoken", tokenValue);
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         String token = t4s.getToken();
         log.info(token);
-        assert "1234".equals(token);
+        assert tokenValue.equals(token);
+    }
+
+    /**
+     * Base62编码雪花ID
+     */
+    @Test
+    void test02Base62Id() {
+        long id = Id.next();
+        String encode = Base62.encode(id);
+        long decode = Base62.decode(encode);
+        log.info("{} {}", id, encode);
+        log.info("解析Base62编码的雪花ID字符串 {}", T4s.parseBase62SnowId(encode));
+        assert id == decode;
     }
 
 }

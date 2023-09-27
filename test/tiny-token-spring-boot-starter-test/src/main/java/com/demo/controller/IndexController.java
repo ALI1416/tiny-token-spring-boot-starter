@@ -1,8 +1,12 @@
 package com.demo.controller;
 
 import cn.z.tinytoken.T4s;
-import cn.z.tinytoken.TinyToken;
+import cn.z.tinytoken.autoconfigure.TinyTokenAutoConfiguration;
+import cn.z.tinytoken.entity.TokenInfo;
+import cn.z.tinytoken.entity.TokenInfoExtra;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +29,7 @@ public class IndexController {
     private final T4s t4s;
 
     /**
-     * 设置token(token使用UUID 过期时间使用默认值)<br>
+     * 设置token(token使用Base62编码的雪花ID 过期时间使用默认值)<br>
      * http://localhost:8080/setToken?id=123
      */
     @GetMapping("setToken")
@@ -34,7 +38,7 @@ public class IndexController {
     }
 
     /**
-     * 设置token(token使用UUID)<br>
+     * 设置token(token使用Base62编码的雪花ID)<br>
      * http://localhost:8080/setToken2?id=1234&timeout=100
      */
     @GetMapping("setToken2")
@@ -212,7 +216,7 @@ public class IndexController {
      * http://localhost:8080/getInfoByToken
      */
     @GetMapping("getInfoByToken")
-    public TinyToken.Info<Long, String> getInfoByToken() {
+    public TokenInfo getInfoByToken() {
         return t4s.getInfoByToken();
     }
 
@@ -221,7 +225,7 @@ public class IndexController {
      * http://localhost:8080/getInfoByToken2?token=qwe
      */
     @GetMapping("getInfoByToken2")
-    public TinyToken.Info<Long, String> getInfoByToken(String token) {
+    public TokenInfo getInfoByToken(String token) {
         return t4s.getInfoByToken(token);
     }
 
@@ -230,7 +234,7 @@ public class IndexController {
      * http://localhost:8080/getInfoById?id=123
      */
     @GetMapping("getInfoById")
-    public List<TinyToken.Info<Long, String>> getInfoById(long id) {
+    public List<TokenInfo> getInfoById(long id) {
         return t4s.getInfoById(id);
     }
 
@@ -239,7 +243,7 @@ public class IndexController {
      * http://localhost:8080/getInfoExtraByToken
      */
     @GetMapping("getInfoExtraByToken")
-    public TinyToken.InfoExtra<Long, String, String> getInfoExtraByToken() {
+    public TokenInfoExtra getInfoExtraByToken() {
         return t4s.getInfoExtraByToken();
     }
 
@@ -248,7 +252,7 @@ public class IndexController {
      * http://localhost:8080/getInfoExtraByToken2?token=qwe
      */
     @GetMapping("getInfoExtraByToken2")
-    public TinyToken.InfoExtra<Long, String, String> getInfoExtraByToken(String token) {
+    public TokenInfoExtra getInfoExtraByToken(String token) {
         return t4s.getInfoExtraByToken(token);
     }
 
@@ -257,7 +261,7 @@ public class IndexController {
      * http://localhost:8080/getInfoExtraById?id=123
      */
     @GetMapping("getInfoExtraById")
-    public List<TinyToken.InfoExtra<Long, String, String>> getInfoExtraById(long id) {
+    public List<TokenInfoExtra> getInfoExtraById(long id) {
         return t4s.getInfoExtraById(id);
     }
 

@@ -1,15 +1,10 @@
 package cn.z.tinytoken;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONReader;
-import com.alibaba.fastjson2.JSONWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.SerializationException;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +21,6 @@ import java.util.concurrent.TimeUnit;
  * @author ALI[ali-k@foxmail.com]
  * @since 1.0.0
  **/
-@Component
 public class Rt {
 
     /**
@@ -46,32 +40,10 @@ public class Rt {
     public Rt(RedisConnectionFactory factory) {
         redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(factory);
-        // key使用String序列化
+        // 使用String序列化
         RedisSerializer<String> stringRedisSerializer = RedisSerializer.string();
         redisTemplate.setKeySerializer(stringRedisSerializer);
-        redisTemplate.setHashKeySerializer(stringRedisSerializer);
-        // value使用FastJson序列化
-        RedisSerializer<Object> fastJsonRedisSerializer = new RedisSerializer<Object>() {
-            @Override
-            public byte[] serialize(Object object) throws SerializationException {
-                if (object == null) {
-                    return new byte[0];
-                }
-                // 写类名
-                return JSON.toJSONBytes(object, "yyyy-MM-dd HH:mm:ss", JSONWriter.Feature.WriteClassName);
-            }
-
-            @Override
-            public Object deserialize(byte[] bytes) throws SerializationException {
-                if (bytes == null || bytes.length == 0) {
-                    return null;
-                }
-                // 类型自动探测
-                return JSON.parseObject(bytes, Object.class, JSONReader.Feature.SupportAutoType);
-            }
-        };
-        redisTemplate.setValueSerializer(fastJsonRedisSerializer);
-        redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);
+        redisTemplate.setValueSerializer(stringRedisSerializer);
         redisTemplate.afterPropertiesSet();
     }
 
