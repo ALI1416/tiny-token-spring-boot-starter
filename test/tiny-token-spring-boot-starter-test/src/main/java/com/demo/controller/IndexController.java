@@ -1,12 +1,9 @@
 package com.demo.controller;
 
 import cn.z.tinytoken.T4s;
-import cn.z.tinytoken.autoconfigure.TinyTokenAutoConfiguration;
 import cn.z.tinytoken.entity.TokenInfo;
 import cn.z.tinytoken.entity.TokenInfoExtra;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

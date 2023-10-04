@@ -13,14 +13,14 @@ spring:
     password:
     timeout: 10s
 
-#tiny-token:
-#  prefix: tinytoken
-#  timeout: 2592000
-#
-#id:
-#  machine-id: 0
-#  machine-bits: 8
-#  sequence-bits: 12
+tiny-token:
+  prefix: tinytoken
+  timeout: 2592000
+
+id:
+  machine-id: 0
+  machine-bits: 8
+  sequence-bits: 12
 
 logging:
   level:
