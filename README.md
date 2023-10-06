@@ -14,7 +14,7 @@
 
 ## 简介
 
-轻量级权限认证SpringBoot实现，使用Redis、雪花ID等技术
+轻量级权限认证SpringBoot实现，使用Redis、雪花ID、Base62等技术
 
 使用方法请看[项目示例](./test/tiny-token-spring-boot-starter-test)
 
@@ -40,12 +40,6 @@
   <groupId>cn.404z</groupId>
   <artifactId>id-spring-boot-autoconfigure</artifactId>
   <version>3.0.1</version>
-</dependency>
-<dependency>
-  <groupId>org.projectlombok</groupId>
-  <artifactId>lombok</artifactId>
-  <version>1.18.28</version>
-  <optional>true</optional>
 </dependency>
 ```
 
