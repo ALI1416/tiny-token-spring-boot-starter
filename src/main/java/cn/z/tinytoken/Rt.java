@@ -24,10 +24,6 @@ import java.util.concurrent.TimeUnit;
 public class Rt {
 
     /**
-     * 秒
-     */
-    private static final TimeUnit SECONDS = TimeUnit.SECONDS;
-    /**
      * Redis模板
      */
     private final RedisTemplate<String, Object> redisTemplate;
@@ -41,9 +37,7 @@ public class Rt {
         redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(factory);
         // 使用String序列化
-        RedisSerializer<String> stringRedisSerializer = RedisSerializer.string();
-        redisTemplate.setKeySerializer(stringRedisSerializer);
-        redisTemplate.setValueSerializer(stringRedisSerializer);
+        redisTemplate.setDefaultSerializer(RedisSerializer.string());
         redisTemplate.afterPropertiesSet();
     }
 
@@ -97,7 +91,7 @@ public class Rt {
      * @return 是否成功
      */
     public Boolean expire(String key, long timeout) {
-        return redisTemplate.expire(key, timeout, SECONDS);
+        return redisTemplate.expire(key, timeout, TimeUnit.SECONDS);
     }
 
     /**
@@ -129,7 +123,7 @@ public class Rt {
      * @param timeout 超时时间(秒，必须>0)
      */
     public <T> void set(String key, T value, long timeout) {
-        redisTemplate.opsForValue().set(key, value, timeout, SECONDS);
+        redisTemplate.opsForValue().set(key, value, timeout, TimeUnit.SECONDS);
     }
 
     /**
