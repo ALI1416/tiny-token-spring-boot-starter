@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * <h1>轻量级权限认证Spring实现</h1>
  *
- * <h3>id类型:Long</h3>
+ * <h3>id类型:long</h3>
  * <h3>token类型:String</h3>
  * <h3>拓展内容类型:String</h3>
  *
@@ -34,7 +34,7 @@ public class T4s {
     /**
      * 过期时间(秒)
      */
-    private final Long timeout;
+    private final long timeout;
     /**
      * Redis模板类
      */
@@ -53,14 +53,34 @@ public class T4s {
     }
 
     /**
+     * 获取前缀
+     *
+     * @return 前缀
+     * @since 1.2.0
+     */
+    public String getPrefix() {
+        return prefix;
+    }
+
+    /**
+     * 获取过期时间(秒)
+     *
+     * @return 过期时间(秒)
+     * @since 1.2.0
+     */
+    public long getTimeout() {
+        return timeout;
+    }
+
+    /**
      * 设置token(token使用Base62编码的雪花ID 过期时间使用默认值)
      *
      * @param id id
      * @return token
      */
-    public String setToken(Long id) {
+    public String setToken(long id) {
         String token = Base62.encode(Id.next());
-        setToken(id, token, "", timeout);
+        setToken(id, token, timeout);
         return token;
     }
 
@@ -71,9 +91,9 @@ public class T4s {
      * @param timeout 过期时间(秒)
      * @return token
      */
-    public String setToken(Long id, long timeout) {
+    public String setToken(long id, long timeout) {
         String token = Base62.encode(Id.next());
-        setToken(id, token, "", timeout);
+        setToken(id, token, timeout);
         return token;
     }
 
@@ -83,8 +103,8 @@ public class T4s {
      * @param id    id
      * @param token token
      */
-    public void setToken(Long id, String token) {
-        setToken(id, token, "", timeout);
+    public void setToken(long id, String token) {
+        setToken(id, token, timeout);
     }
 
     /**
@@ -94,8 +114,8 @@ public class T4s {
      * @param token   token
      * @param timeout 过期时间(秒)
      */
-    public void setToken(Long id, String token, long timeout) {
-        setToken(id, token, "", timeout);
+    public void setToken(long id, String token, long timeout) {
+        rt.set(prefix + ":" + id + ":" + token, "", timeout);
     }
 
     /**
@@ -106,8 +126,51 @@ public class T4s {
      * @param extra   拓展内容
      * @param timeout 过期时间(秒)
      */
-    public void setToken(Long id, String token, String extra, long timeout) {
+    public void setToken(long id, String token, String extra, long timeout) {
         rt.set(prefix + ":" + id + ":" + token, extra, timeout);
+    }
+
+    /**
+     * 设置拓展内容
+     *
+     * @param token token
+     * @param extra 拓展内容
+     * @return 是否成功
+     * @since 1.2.0
+     */
+    public boolean setExtra(String token, String extra) {
+        String key = getKey(token);
+        if (key != null) {
+            long expire = rt.getExpire(key);
+            if (expire == -1) {
+                rt.set(key, extra);
+            } else {
+                rt.set(key, extra, expire);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 清除拓展内容
+     *
+     * @param token token
+     * @return 是否成功
+     * @since 1.2.0
+     */
+    public boolean clearExtra(String token) {
+        String key = getKey(token);
+        if (key != null) {
+            long expire = rt.getExpire(key);
+            if (expire == -1) {
+                rt.set(key, "");
+            } else {
+                rt.set(key, "", expire);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -157,8 +220,18 @@ public class T4s {
      * @param id id
      * @return 键列表(不存在返回[])
      */
-    private List<String> getKey(Long id) {
+    private List<String> getKey(long id) {
         return rt.scan(prefix + ":" + id + ":*");
+    }
+
+    /**
+     * 获取所有键列表
+     *
+     * @return 键列表(不存在返回[])
+     * @since 1.2.0
+     */
+    private List<String> getKey() {
+        return rt.scan(prefix + ":*:*");
     }
 
     /**
@@ -167,7 +240,7 @@ public class T4s {
      * @param id id
      * @return token列表(不存在返回[])
      */
-    public List<String> getToken(Long id) {
+    public List<String> getToken(long id) {
         List<String> tokens = new ArrayList<>();
         List<String> keys = getKey(id);
         for (String key : keys) {
@@ -234,7 +307,7 @@ public class T4s {
      * @param id id
      * @return 是否存在
      */
-    public boolean existById(Long id) {
+    public boolean existById(long id) {
         return !getKey(id).isEmpty();
     }
 
@@ -271,7 +344,7 @@ public class T4s {
      * @param id id
      * @return 成功个数
      */
-    public Long deleteById(Long id) {
+    public Long deleteById(long id) {
         List<String> keys = getKey(id);
         if (!keys.isEmpty()) {
             return rt.deleteMulti(keys);
@@ -357,7 +430,7 @@ public class T4s {
     public TokenInfo getInfoByToken(String token) {
         String key = getKey(token);
         if (key != null) {
-            Long expire = rt.getExpire(key);
+            long expire = rt.getExpire(key);
             if (expire > -2) {
                 String[] split = key.split(":", -1);
                 if (split.length == 3) {
@@ -374,15 +447,57 @@ public class T4s {
      * @param id id
      * @return 信息列表(不存在返回[])
      */
-    public List<TokenInfo> getInfoById(Long id) {
+    public List<TokenInfo> getInfoById(long id) {
         List<TokenInfo> list = new ArrayList<>();
         List<String> keys = getKey(id);
         for (String key : keys) {
-            Long expire = rt.getExpire(key);
+            long expire = rt.getExpire(key);
             if (expire > -2) {
                 String[] split = key.split(":", -1);
                 if (split.length == 3) {
                     list.add(new TokenInfo(id, split[2], expire));
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 获取所有信息列表
+     *
+     * @return 信息列表(不存在返回[])
+     * @since 1.2.0
+     */
+    public List<TokenInfo> getInfo() {
+        List<TokenInfo> list = new ArrayList<>();
+        List<String> keys = getKey();
+        for (String key : keys) {
+            long expire = rt.getExpire(key);
+            if (expire > -2) {
+                String[] split = key.split(":", -1);
+                if (split.length == 3) {
+                    list.add(new TokenInfo(Long.parseLong(split[1]), split[2], expire));
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 获取所有永不过期信息列表
+     *
+     * @return 信息列表(不存在返回[])
+     * @since 1.2.0
+     */
+    public List<TokenInfo> getInfoPersist() {
+        List<TokenInfo> list = new ArrayList<>();
+        List<String> keys = getKey();
+        for (String key : keys) {
+            long expire = rt.getExpire(key);
+            if (expire == -1) {
+                String[] split = key.split(":", -1);
+                if (split.length == 3) {
+                    list.add(new TokenInfo(Long.parseLong(split[1]), split[2], expire));
                 }
             }
         }
@@ -411,7 +526,7 @@ public class T4s {
     public TokenInfoExtra getInfoExtraByToken(String token) {
         String key = getKey(token);
         if (key != null) {
-            Long expire = rt.getExpire(key);
+            long expire = rt.getExpire(key);
             if (expire > -2) {
                 String[] split = key.split(":", -1);
                 if (split.length == 3) {
@@ -428,17 +543,65 @@ public class T4s {
      * @param id id
      * @return 信息拓展列表(不存在返回[])
      */
-    public List<TokenInfoExtra> getInfoExtraById(Long id) {
+    public List<TokenInfoExtra> getInfoExtraById(long id) {
         List<TokenInfoExtra> list = new ArrayList<>();
         List<String> keys = getKey(id);
         if (!keys.isEmpty()) {
             List<Object> extras = rt.getMulti(keys);
             for (int i = 0; i < keys.size(); i++) {
-                Long expire = rt.getExpire(keys.get(i));
+                long expire = rt.getExpire(keys.get(i));
                 if (expire > -2) {
                     String[] split = keys.get(i).split(":", -1);
                     if (split.length == 3) {
                         list.add(new TokenInfoExtra(id, split[2], (String) extras.get(i), expire));
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 获取所有信息拓展列表
+     *
+     * @return 信息拓展列表(不存在返回[])
+     * @since 1.2.0
+     */
+    public List<TokenInfoExtra> getInfoExtra() {
+        List<TokenInfoExtra> list = new ArrayList<>();
+        List<String> keys = getKey();
+        if (!keys.isEmpty()) {
+            List<Object> extras = rt.getMulti(keys);
+            for (int i = 0; i < keys.size(); i++) {
+                long expire = rt.getExpire(keys.get(i));
+                if (expire > -2) {
+                    String[] split = keys.get(i).split(":", -1);
+                    if (split.length == 3) {
+                        list.add(new TokenInfoExtra(Long.parseLong(split[1]), split[2], (String) extras.get(i), expire));
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 获取所有永不过期信息拓展列表
+     *
+     * @return 信息拓展列表(不存在返回[])
+     * @since 1.2.0
+     */
+    public List<TokenInfoExtra> getInfoExtraPersist() {
+        List<TokenInfoExtra> list = new ArrayList<>();
+        List<String> keys = getKey();
+        if (!keys.isEmpty()) {
+            List<Object> extras = rt.getMulti(keys);
+            for (int i = 0; i < keys.size(); i++) {
+                long expire = rt.getExpire(keys.get(i));
+                if (expire == -1) {
+                    String[] split = keys.get(i).split(":", -1);
+                    if (split.length == 3) {
+                        list.add(new TokenInfoExtra(Long.parseLong(split[1]), split[2], (String) extras.get(i), expire));
                     }
                 }
             }

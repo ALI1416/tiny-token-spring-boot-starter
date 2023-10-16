@@ -26,6 +26,15 @@ public class IndexController {
     private final T4s t4s;
 
     /**
+     * 获取前缀和过期时间(秒)<br>
+     * http://localhost:8080/getPrefixAndTimeout
+     */
+    @GetMapping("getPrefixAndTimeout")
+    public String getPrefixAndTimeout() {
+        return t4s.getPrefix() + " " + t4s.getTimeout();
+    }
+
+    /**
      * 设置token(token使用Base62编码的雪花ID 过期时间使用默认值)<br>
      * http://localhost:8080/setToken?id=123
      */
@@ -71,6 +80,24 @@ public class IndexController {
     public String setToken(long id, String token, String extra, long timeout) {
         t4s.setToken(id, token, extra, timeout);
         return "ok";
+    }
+
+    /**
+     * 设置拓展内容<br>
+     * http://localhost:8080/setExtra?token=qwe&extra=asd
+     */
+    @GetMapping("setExtra")
+    public boolean setExtra(String token, String extra) {
+        return t4s.setExtra(token, extra);
+    }
+
+    /**
+     * 清除拓展内容<br>
+     * http://localhost:8080/clearExtra?token=qwe
+     */
+    @GetMapping("clearExtra")
+    public boolean clearExtra(String token) {
+        return t4s.clearExtra(token);
     }
 
     /**
@@ -236,6 +263,24 @@ public class IndexController {
     }
 
     /**
+     * 获取所有信息列表<br>
+     * http://localhost:8080/getInfo
+     */
+    @GetMapping("getInfo")
+    public List<TokenInfo> getInfo() {
+        return t4s.getInfo();
+    }
+
+    /**
+     * 获取所有永不过期信息列表<br>
+     * http://localhost:8080/getInfoPersist
+     */
+    @GetMapping("getInfoPersist")
+    public List<TokenInfo> getInfoPersist() {
+        return t4s.getInfoPersist();
+    }
+
+    /**
      * 获取拓展信息(当前Context)<br>
      * http://localhost:8080/getInfoExtraByToken
      */
@@ -260,6 +305,24 @@ public class IndexController {
     @GetMapping("getInfoExtraById")
     public List<TokenInfoExtra> getInfoExtraById(long id) {
         return t4s.getInfoExtraById(id);
+    }
+
+    /**
+     * 获取所有信息拓展列表<br>
+     * http://localhost:8080/getInfoExtra
+     */
+    @GetMapping("getInfoExtra")
+    public List<TokenInfoExtra> getInfoExtra() {
+        return t4s.getInfoExtra();
+    }
+
+    /**
+     * 获取所有永不过期信息拓展列表<br>
+     * http://localhost:8080/getInfoExtraPersist
+     */
+    @GetMapping("getInfoExtraPersist")
+    public List<TokenInfoExtra> getInfoExtraPersist() {
+        return t4s.getInfoExtraPersist();
     }
 
 }

@@ -16,15 +16,13 @@
 
 轻量级权限认证SpringBoot实现，使用Redis、雪花ID、Base62等技术
 
-使用方法请看[项目示例](./test/tiny-token-spring-boot-starter-test)
-
 ## 依赖导入
 
 ```xml
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
@@ -42,6 +40,33 @@
   <version>3.0.1</version>
 </dependency>
 ```
+
+## 使用方法
+
+```java
+// 注入
+private final T4s t4s;
+// 设置token(token使用Base62编码的雪花ID 过期时间使用默认值)
+t4s.setToken(id);
+// 获取token(当前Context 不判断是否有效)
+t4s.getToken();
+// 获取token(当前Context 判断是否有效)
+t4s.getTokenValid();
+// 获取id(当前Context)
+t4s.getId();
+// 删除(当前Context)
+t4s.deleteByToken();
+// 设置过期时间(当前Context)
+t4s.expire(timeout);
+// 设置永不过期(当前Context)
+t4s.persist();
+// 获取信息(当前Context)
+t4s.getInfoByToken();
+// 获取拓展信息(当前Context)
+t4s.getInfoExtraByToken();
+```
+
+更多请见[测试](./test/tiny-token-spring-boot-starter-test)
 
 ## 更新日志
 

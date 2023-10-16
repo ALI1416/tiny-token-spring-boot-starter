@@ -17,12 +17,7 @@ public class TokenInfoExtra extends TokenInfo {
      */
     private final String extra;
 
-    public TokenInfoExtra() {
-        super();
-        this.extra = null;
-    }
-
-    public TokenInfoExtra(Long id, String token, String extra, long timeout) {
+    public TokenInfoExtra(long id, String token, String extra, long timeout) {
         super(id, token, timeout);
         this.extra = extra;
     }

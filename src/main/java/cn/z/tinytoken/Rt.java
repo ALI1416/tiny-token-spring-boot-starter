@@ -4,7 +4,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
-import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +37,7 @@ public class Rt {
         redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(factory);
         // 使用String序列化
-        redisTemplate.setDefaultSerializer(RedisSerializer.string());
+        redisTemplate.setDefaultSerializer(StringRedisSerializer.UTF_8);
         redisTemplate.afterPropertiesSet();
     }
 
@@ -115,9 +115,21 @@ public class Rt {
     }
 
     /**
+     * 放入(set)
+     *
+     * @param <T>   数据类型
+     * @param key   键(已存在会被覆盖)
+     * @param value 值
+     * @since 1.2.0
+     */
+    public <T> void set(String key, T value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+
+    /**
      * 放入，并设置超时时间(setEX)
      *
-     * @param <T>     指定数据类型
+     * @param <T>     数据类型
      * @param key     键(已存在会被覆盖)
      * @param value   值
      * @param timeout 超时时间(秒，必须>0)

@@ -15,7 +15,7 @@ public class TokenInfo {
     /**
      * id
      */
-    private final Long id;
+    private final long id;
     /**
      * token
      */
@@ -26,13 +26,7 @@ public class TokenInfo {
      */
     private final long timeout;
 
-    public TokenInfo() {
-        this.token = null;
-        this.id = null;
-        this.timeout = -1;
-    }
-
-    public TokenInfo(Long id, String token, long timeout) {
+    public TokenInfo(long id, String token, long timeout) {
         this.token = token;
         this.id = id;
         this.timeout = timeout;
@@ -42,7 +36,7 @@ public class TokenInfo {
         return token;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
