@@ -50,16 +50,17 @@ class TinyTokenTest {
     }
 
     /**
-     * Base62编码雪花ID
+     * 解析加密字符串
      */
     @Test
-    void test02Base62Id() {
-        long id = Id.next();
-        String encode = Base62.encode(id);
-        long decode = Base62.decode(encode);
-        log.info("{} {}", id, encode);
-        log.info("解析Base62编码的雪花ID字符串 {}", T4s.parseBase62SnowId(encode));
-        assert id == decode;
+    void test02Decode() {
+        long time = Id.next();
+        long id = 1234L;
+        String encode = T4s.encode(time, id);
+        log.info("{} {} -> {}", time, id, encode);
+        long[] decode = T4s.decode(encode);
+        log.info("解析加密字符串 {}", decode);
+        assert id == decode[3];
     }
 
 }

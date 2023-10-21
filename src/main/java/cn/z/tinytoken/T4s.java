@@ -10,6 +10,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * <h1>轻量级权限认证Spring实现</h1>
@@ -27,6 +28,10 @@ import java.util.List;
  **/
 public class T4s {
 
+    /**
+     * 随机数实例
+     */
+    private static final Random RANDOM = new Random();
     /**
      * 前缀
      */
@@ -73,26 +78,26 @@ public class T4s {
     }
 
     /**
-     * 设置token(token使用Base62编码的雪花ID 过期时间使用默认值)
+     * 设置token(token使用32位随机字符串 过期时间使用默认值)
      *
      * @param id id
      * @return token
      */
     public String setToken(long id) {
-        String token = Base62.encode(Id.next());
+        String token = encode(Id.next(), id);
         setToken(id, token, timeout);
         return token;
     }
 
     /**
-     * 设置token(token使用Base62编码的雪花ID)
+     * 设置token(token使用32位随机字符串)
      *
      * @param id      id
      * @param timeout 过期时间(秒)
      * @return token
      */
     public String setToken(long id, long timeout) {
-        String token = Base62.encode(Id.next());
+        String token = encode(Id.next(), id);
         setToken(id, token, timeout);
         return token;
     }
@@ -610,16 +615,50 @@ public class T4s {
     }
 
     /**
-     * 解析Base62编码的雪花ID字符串
+     * 生成32位随机字符串
      *
-     * @param base62 Base62字符串
+     * @param time 时间戳
+     * @param id   id
+     * @return 32位随机字符串
+     */
+    public static String encode(long time, long id) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            sb.append((char) Base62.ALPHABET[RANDOM.nextInt(62)]);
+        }
+        String er = sb.toString();
+        long random = Base62.decode(er);
+        long tr = time ^ random;
+        long ti = time ^ id;
+        StringBuilder etr = new StringBuilder(Base62.encode(tr));
+        StringBuilder eti = new StringBuilder(Base62.encode(ti));
+        for (int i = 0; i < 11 - etr.length(); i++) {
+            etr.insert(0, "0");
+        }
+        for (int i = 0; i < 11 - eti.length(); i++) {
+            eti.insert(0, "0");
+        }
+        return er + etr + eti;
+    }
+
+    /**
+     * 解析32位随机字符串
+     *
+     * @param string 32位随机字符串
      * @return [0] timestamp 时间戳<br>
      * [1] machineId 机器码<br>
-     * [2] sequence  序列号
-     * @since 1.1.0
+     * [2] sequence  序列号<br>
+     * [3] id  id
+     * @since 1.2.1
      */
-    public static long[] parseBase62SnowId(String base62) {
-        return Id.parse(Base62.decode(base62));
+    public static long[] decode(String string) {
+        long dr = Base62.decode(string.substring(0, 10));
+        long dtr = Base62.decode(string.substring(10, 21));
+        long dti = Base62.decode(string.substring(21, 32));
+        long dt = dr ^ dtr;
+        long di = dt ^ dti;
+        long[] parse = Id.parse(dt);
+        return new long[]{parse[0], parse[1], parse[2], di};
     }
 
 }

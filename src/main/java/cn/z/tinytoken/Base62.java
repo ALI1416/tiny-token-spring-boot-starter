@@ -17,11 +17,11 @@ public class Base62 {
     /**
      * 字母表
      */
-    private static final byte[] ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".getBytes(StandardCharsets.UTF_8);
+    public static final byte[] ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".getBytes(StandardCharsets.UTF_8);
     /**
      * 反向映射表
      */
-    private static final byte[] LOOKUP = lookup();
+    public static final byte[] LOOKUP = lookup();
 
     private Base62() {
     }
@@ -65,7 +65,7 @@ public class Base62 {
      *
      * @return 映射表
      */
-    private static byte[] lookup() {
+    public static byte[] lookup() {
         byte[] lookup = new byte[123];
         for (int i = 0; i < ALPHABET.length; i++) {
             lookup[ALPHABET[i]] = (byte) i;
