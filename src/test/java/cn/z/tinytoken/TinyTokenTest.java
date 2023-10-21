@@ -12,6 +12,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.sql.Timestamp;
+
 /**
  * <h1>轻量级权限认证测试</h1>
  *
@@ -50,16 +52,16 @@ class TinyTokenTest {
     }
 
     /**
-     * 解析加密字符串
+     * 解析32位随机字符串
      */
     @Test
     void test02Decode() {
         long time = Id.next();
         long id = 1234L;
         String encode = T4s.encode(time, id);
-        log.info("{} {} -> {}", time, id, encode);
+        log.info("time {} id {} -> {}", time, id, encode);
         long[] decode = T4s.decode(encode);
-        log.info("解析加密字符串 {}", decode);
+        log.info("时间戳 {} 机器码 {} 序列号 {} id {}", new Timestamp(decode[0]), decode[1], decode[2], decode[3]);
         assert id == decode[3];
     }
 

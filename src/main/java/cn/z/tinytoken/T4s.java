@@ -633,10 +633,10 @@ public class T4s {
         StringBuilder etr = new StringBuilder(Base62.encode(tr));
         StringBuilder eti = new StringBuilder(Base62.encode(ti));
         for (int i = 0; i < 11 - etr.length(); i++) {
-            etr.insert(0, "0");
+            etr.insert(0, (char) Base62.ALPHABET[0]);
         }
         for (int i = 0; i < 11 - eti.length(); i++) {
-            eti.insert(0, "0");
+            eti.insert(0, (char) Base62.ALPHABET[0]);
         }
         return er + etr + eti;
     }
