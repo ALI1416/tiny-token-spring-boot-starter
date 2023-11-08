@@ -358,6 +358,20 @@ public class T4s {
     }
 
     /**
+     * 设置过期时间(当前Context 过期时间使用默认值)
+     *
+     * @return 是否成功
+     * @since 1.2.3
+     */
+    public Boolean expire() {
+        String token = getToken();
+        if (token != null) {
+            return expire(token, timeout);
+        }
+        return false;
+    }
+
+    /**
      * 设置过期时间(当前Context)
      *
      * @param timeout 过期时间(秒)
@@ -367,6 +381,21 @@ public class T4s {
         String token = getToken();
         if (token != null) {
             return expire(token, timeout);
+        }
+        return false;
+    }
+
+    /**
+     * 设置过期时间(过期时间使用默认值)
+     *
+     * @param token token
+     * @return 是否成功
+     * @since 1.2.3
+     */
+    public Boolean expire(String token) {
+        String key = getKey(token);
+        if (key != null) {
+            return rt.expire(key, timeout);
         }
         return false;
     }

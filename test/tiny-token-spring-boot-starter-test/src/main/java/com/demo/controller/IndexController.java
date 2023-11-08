@@ -200,19 +200,37 @@ public class IndexController {
     }
 
     /**
-     * 设置过期时间(当前Context)<br>
-     * http://localhost:8080/expire?timeout=100
+     * 设置过期时间(当前Context 过期时间使用默认值)<br>
+     * http://localhost:8080/expire
      */
     @GetMapping("expire")
+    public Boolean expire() {
+        return t4s.expire();
+    }
+
+    /**
+     * 设置过期时间(当前Context)<br>
+     * http://localhost:8080/expire2?timeout=100
+     */
+    @GetMapping("expire2")
     public Boolean expire(long timeout) {
         return t4s.expire(timeout);
     }
 
     /**
-     * 设置过期时间<br>
-     * http://localhost:8080/expire2?token=qwe&timeout=100
+     * 设置过期时间(过期时间使用默认值)<br>
+     * http://localhost:8080/expire3?token=qwe
      */
-    @GetMapping("expire2")
+    @GetMapping("expire3")
+    public Boolean expire(String token) {
+        return t4s.expire(token);
+    }
+
+    /**
+     * 设置过期时间<br>
+     * http://localhost:8080/expire4?token=qwe&timeout=100
+     */
+    @GetMapping("expire4")
     public Boolean expire(String token, long timeout) {
         return t4s.expire(token, timeout);
     }

@@ -22,7 +22,7 @@
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.2.2</version>
+  <version>1.2.3</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
@@ -56,8 +56,8 @@ t4s.getTokenValid();
 t4s.getId();
 // 删除(当前Context)
 t4s.deleteByToken();
-// 设置过期时间(当前Context)
-t4s.expire(timeout);
+// 设置过期时间(当前Context 过期时间使用默认值)
+t4s.expire();
 // 设置永不过期(当前Context)
 t4s.persist();
 // 获取信息(当前Context)
