@@ -31,7 +31,7 @@ public class IndexController {
      */
     @GetMapping("getPrefixAndTimeout")
     public String getPrefixAndTimeout() {
-        return t4s.getPrefix() + " " + t4s.getTimeout();
+        return t4s.getPrefixHeader() + " " + t4s.getPrefixRedis() + " " + t4s.getTimeout();
     }
 
     /**

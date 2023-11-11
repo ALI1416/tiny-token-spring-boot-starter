@@ -22,7 +22,7 @@
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.2.3</version>
+  <version>1.3.0</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>

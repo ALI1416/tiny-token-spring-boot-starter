@@ -16,20 +16,32 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class TinyTokenProperties {
 
     /**
-     * 前缀(默认值"tinytoken")
+     * header前缀(默认值"tinytoken")
      */
-    private String prefix = "tinytoken";
+    private String prefixHeader = "tinytoken";
+    /**
+     * redis前缀(默认值"tinytoken")
+     */
+    private String prefixRedis = "tinytoken";
     /**
      * 过期时间(秒)(默认值2592000[30天])
      */
     private long timeout = 2592000L;
 
-    public String getPrefix() {
-        return prefix;
+    public String getPrefixHeader() {
+        return prefixHeader;
     }
 
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
+    public void setPrefixHeader(String prefixHeader) {
+        this.prefixHeader = prefixHeader;
+    }
+
+    public String getPrefixRedis() {
+        return prefixRedis;
+    }
+
+    public void setPrefixRedis(String prefixRedis) {
+        this.prefixRedis = prefixRedis;
     }
 
     public long getTimeout() {

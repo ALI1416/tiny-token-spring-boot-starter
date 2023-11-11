@@ -33,9 +33,13 @@ public class T4s {
      */
     private static final Random RANDOM = new Random();
     /**
-     * 前缀
+     * header前缀
      */
-    private final String prefix;
+    private final String prefixHeader;
+    /**
+     * redis前缀
+     */
+    private final String prefixRedis;
     /**
      * 过期时间(秒)
      */
@@ -52,19 +56,30 @@ public class T4s {
      * @param rt                  Rt
      */
     public T4s(TinyTokenProperties tinyTokenProperties, Rt rt) {
-        this.prefix = tinyTokenProperties.getPrefix();
+        this.prefixHeader = tinyTokenProperties.getPrefixHeader();
+        this.prefixRedis = tinyTokenProperties.getPrefixRedis();
         this.timeout = tinyTokenProperties.getTimeout();
         this.rt = rt;
     }
 
     /**
-     * 获取前缀
+     * 获取header前缀
      *
      * @return 前缀
-     * @since 1.2.0
+     * @since 1.3.0
      */
-    public String getPrefix() {
-        return prefix;
+    public String getPrefixHeader() {
+        return prefixHeader;
+    }
+
+    /**
+     * 获取redis前缀
+     *
+     * @return 前缀
+     * @since 1.3.0
+     */
+    public String getPrefixRedis() {
+        return prefixRedis;
     }
 
     /**
@@ -120,7 +135,7 @@ public class T4s {
      * @param timeout 过期时间(秒)
      */
     public void setToken(long id, String token, long timeout) {
-        rt.set(prefix + ":" + id + ":" + token, "", timeout);
+        rt.set(prefixRedis + ":" + id + ":" + token, "", timeout);
     }
 
     /**
@@ -132,7 +147,7 @@ public class T4s {
      * @param timeout 过期时间(秒)
      */
     public void setToken(long id, String token, String extra, long timeout) {
-        rt.set(prefix + ":" + id + ":" + token, extra, timeout);
+        rt.set(prefixRedis + ":" + id + ":" + token, extra, timeout);
     }
 
     /**
@@ -189,7 +204,7 @@ public class T4s {
         if (requestAttributes == null) {
             throw new TinyTokenException("不存在Context");
         }
-        return ((ServletRequestAttributes) requestAttributes).getRequest().getHeader(prefix);
+        return ((ServletRequestAttributes) requestAttributes).getRequest().getHeader(prefixHeader);
     }
 
     /**
@@ -212,7 +227,7 @@ public class T4s {
      * @return 键(不存在返回null)
      */
     private String getKey(String token) {
-        List<String> scan = rt.scan(prefix + ":*:" + token);
+        List<String> scan = rt.scan(prefixRedis + ":*:" + token);
         if (!scan.isEmpty()) {
             return scan.get(0);
         }
@@ -226,7 +241,7 @@ public class T4s {
      * @return 键列表(不存在返回[])
      */
     private List<String> getKey(long id) {
-        return rt.scan(prefix + ":" + id + ":*");
+        return rt.scan(prefixRedis + ":" + id + ":*");
     }
 
     /**
@@ -236,7 +251,7 @@ public class T4s {
      * @since 1.2.0
      */
     private List<String> getKey() {
-        return rt.scan(prefix + ":*:*");
+        return rt.scan(prefixRedis + ":*:*");
     }
 
     /**
@@ -303,7 +318,7 @@ public class T4s {
      * @return 是否存在
      */
     public boolean existByToken(String token) {
-        return !rt.scan(prefix + ":*:" + token).isEmpty();
+        return !rt.scan(prefixRedis + ":*:" + token).isEmpty();
     }
 
     /**
@@ -661,10 +676,12 @@ public class T4s {
         long ti = time ^ id;
         StringBuilder etr = new StringBuilder(Base62.encode(tr));
         StringBuilder eti = new StringBuilder(Base62.encode(ti));
-        for (int i = 0; i < 11 - etr.length(); i++) {
+        int etrL = 11 - etr.length();
+        for (int i = 0; i < etrL; i++) {
             etr.insert(0, (char) Base62.ALPHABET[0]);
         }
-        for (int i = 0; i < 11 - eti.length(); i++) {
+        int etiL = 11 - eti.length();
+        for (int i = 0; i < etiL; i++) {
             eti.insert(0, (char) Base62.ALPHABET[0]);
         }
         return er + etr + eti;
