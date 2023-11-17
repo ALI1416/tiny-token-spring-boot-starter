@@ -44,7 +44,7 @@ class TinyTokenTest {
     void test00Normal() {
         String tokenValue = "1234";
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader("tinytoken", tokenValue);
+        request.addHeader("token", tokenValue);
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         String token = t4s.getToken();
         log.info(token);

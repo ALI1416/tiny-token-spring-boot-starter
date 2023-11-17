@@ -28,7 +28,7 @@ public class TinyTokenAutoConfiguration {
      * @param tinyTokenProperties TinyTokenProperties
      */
     public TinyTokenAutoConfiguration(TinyTokenProperties tinyTokenProperties) {
-        log.info("TinyToken配置：header前缀HEADER_PREFIX {} ，redis前缀REDIS_PREFIX {} ，过期时间TIMEOUT {} (秒)", tinyTokenProperties.getPrefixHeader(), tinyTokenProperties.getPrefixRedis(), tinyTokenProperties.getTimeout());
+        log.info("TinyToken配置：header HEADER {} ，前缀PREFIX {} ，过期时间TIMEOUT {} (秒)", tinyTokenProperties.getHeader(), tinyTokenProperties.getPrefix(), tinyTokenProperties.getTimeout());
     }
 
 }

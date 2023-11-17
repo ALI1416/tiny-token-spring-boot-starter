@@ -33,13 +33,13 @@ public class T4s {
      */
     private static final Random RANDOM = new Random();
     /**
-     * header前缀
+     * header
      */
-    private final String prefixHeader;
+    private final String header;
     /**
-     * redis前缀
+     * 前缀
      */
-    private final String prefixRedis;
+    private final String prefix;
     /**
      * 过期时间(秒)
      */
@@ -56,30 +56,30 @@ public class T4s {
      * @param rt                  Rt
      */
     public T4s(TinyTokenProperties tinyTokenProperties, Rt rt) {
-        this.prefixHeader = tinyTokenProperties.getPrefixHeader();
-        this.prefixRedis = tinyTokenProperties.getPrefixRedis();
+        this.header = tinyTokenProperties.getHeader();
+        this.prefix = tinyTokenProperties.getPrefix();
         this.timeout = tinyTokenProperties.getTimeout();
         this.rt = rt;
     }
 
     /**
-     * 获取header前缀
+     * 获取header
      *
      * @return 前缀
-     * @since 1.3.0
+     * @since 1.4.0
      */
-    public String getPrefixHeader() {
-        return prefixHeader;
+    public String getHeader() {
+        return header;
     }
 
     /**
-     * 获取redis前缀
+     * 获取前缀
      *
      * @return 前缀
-     * @since 1.3.0
+     * @since 1.4.0
      */
-    public String getPrefixRedis() {
-        return prefixRedis;
+    public String getPrefix() {
+        return prefix;
     }
 
     /**
@@ -135,7 +135,7 @@ public class T4s {
      * @param timeout 过期时间(秒)
      */
     public void setToken(long id, String token, long timeout) {
-        rt.set(prefixRedis + ":" + id + ":" + token, "", timeout);
+        rt.set(prefix + ":" + id + ":" + token, "", timeout);
     }
 
     /**
@@ -147,7 +147,7 @@ public class T4s {
      * @param timeout 过期时间(秒)
      */
     public void setToken(long id, String token, String extra, long timeout) {
-        rt.set(prefixRedis + ":" + id + ":" + token, extra, timeout);
+        rt.set(prefix + ":" + id + ":" + token, extra, timeout);
     }
 
     /**
@@ -204,7 +204,7 @@ public class T4s {
         if (requestAttributes == null) {
             throw new TinyTokenException("不存在Context");
         }
-        return ((ServletRequestAttributes) requestAttributes).getRequest().getHeader(prefixHeader);
+        return ((ServletRequestAttributes) requestAttributes).getRequest().getHeader(header);
     }
 
     /**
@@ -227,7 +227,7 @@ public class T4s {
      * @return 键(不存在返回null)
      */
     private String getKey(String token) {
-        List<String> scan = rt.scan(prefixRedis + ":*:" + token);
+        List<String> scan = rt.scan(prefix + ":*:" + token);
         if (!scan.isEmpty()) {
             return scan.get(0);
         }
@@ -241,7 +241,7 @@ public class T4s {
      * @return 键列表(不存在返回[])
      */
     private List<String> getKey(long id) {
-        return rt.scan(prefixRedis + ":" + id + ":*");
+        return rt.scan(prefix + ":" + id + ":*");
     }
 
     /**
@@ -251,7 +251,7 @@ public class T4s {
      * @since 1.2.0
      */
     private List<String> getKey() {
-        return rt.scan(prefixRedis + ":*:*");
+        return rt.scan(prefix + ":*:*");
     }
 
     /**
@@ -318,7 +318,7 @@ public class T4s {
      * @return 是否存在
      */
     public boolean existByToken(String token) {
-        return !rt.scan(prefixRedis + ":*:" + token).isEmpty();
+        return !rt.scan(prefix + ":*:" + token).isEmpty();
     }
 
     /**

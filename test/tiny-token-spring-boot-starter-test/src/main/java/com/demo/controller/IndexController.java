@@ -26,12 +26,12 @@ public class IndexController {
     private final T4s t4s;
 
     /**
-     * 获取前缀和过期时间(秒)<br>
-     * http://localhost:8080/getPrefixAndTimeout
+     * 获取参数<br>
+     * http://localhost:8080/getProperties
      */
-    @GetMapping("getPrefixAndTimeout")
-    public String getPrefixAndTimeout() {
-        return t4s.getPrefixHeader() + " " + t4s.getPrefixRedis() + " " + t4s.getTimeout();
+    @GetMapping("getProperties")
+    public String getProperties() {
+        return t4s.getHeader() + " " + t4s.getPrefix() + " " + t4s.getTimeout();
     }
 
     /**

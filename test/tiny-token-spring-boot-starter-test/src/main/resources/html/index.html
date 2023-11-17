@@ -13,7 +13,7 @@
   <label for="urlText">URL：</label><input id="urlText" type="text" value="http://127.0.0.1:8080/">
 </div>
 <div>
-  <label for="prefixText">前缀：</label><input id="prefixText" type="text" value="tinytoken">
+  <label for="headerText">Header：</label><input id="headerText" type="text" value="token">
 </div>
 <div>
   <label for="idText">ID：</label><input id="idText" type="text" value="1">
@@ -25,13 +25,13 @@
 <div id="tipDiv"></div>
 <script>
   let urlText = document.getElementById('urlText')
-  let prefixText = document.getElementById('prefixText')
+  let headerText = document.getElementById('headerText')
   let idText = document.getElementById('idText')
   let loginBtn = document.getElementById('loginBtn')
   let logoutBtn = document.getElementById('logoutBtn')
   let tipDiv = document.getElementById('tipDiv')
 
-  let token = localStorage[prefixText.value]
+  let token = localStorage[headerText.value]
 
   // 进入页面判断登录状态
   if (token === undefined) {
@@ -40,7 +40,7 @@
     getId().then(res => {
       if (res.length === 0) {
         tipDiv.innerText = '登录已过期'
-        localStorage.removeItem(prefixText.value)
+        localStorage.removeItem(headerText.value)
         token = undefined
       } else {
         tipDiv.innerText = '已登录账号[' + res + '] token[' + token + ']'
@@ -53,7 +53,7 @@
    */
   loginBtn.addEventListener('click', () => {
     login(idText.value).then(res => {
-      localStorage[prefixText.value] = res
+      localStorage[headerText.value] = res
       token = res
       tipDiv.innerText = '登录成功，账号[' + idText.value + '] token[' + res + ']'
     })
@@ -69,7 +69,7 @@
       } else {
         tipDiv.innerText = '注销token[' + token + ']失败'
       }
-      localStorage.removeItem(prefixText.value)
+      localStorage.removeItem(headerText.value)
       token = undefined
     })
   })
@@ -96,7 +96,7 @@
   }
 
   function myFetch(path) {
-    return fetch(urlText.value + path, {headers: {mode: 'no-cors', [prefixText.value]: token}}).then(res => res.text())
+    return fetch(urlText.value + path, {headers: {mode: 'no-cors', [headerText.value]: token}}).then(res => res.text())
   }
 </script>
 </body>

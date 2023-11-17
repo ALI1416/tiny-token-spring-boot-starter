@@ -14,8 +14,8 @@ spring:
     timeout: 10s
 
 tiny-token:
-  prefix-header: tinytoken
-  prefix-redis: tinytoken
+  header: token
+  prefix: tinytoken
   timeout: 2592000
 
 id:
