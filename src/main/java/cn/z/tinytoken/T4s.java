@@ -151,6 +151,21 @@ public class T4s {
     }
 
     /**
+     * 设置拓展内容(当前Context)
+     *
+     * @param extra 拓展内容
+     * @return 是否成功
+     * @since 1.4.1
+     */
+    public boolean setExtra(String extra) {
+        String token = getToken();
+        if (token != null) {
+            return setExtra(token, extra);
+        }
+        return false;
+    }
+
+    /**
      * 设置拓展内容
      *
      * @param token token
@@ -168,6 +183,20 @@ public class T4s {
                 rt.set(key, extra, expire);
             }
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * 清除拓展内容(当前Context)
+     *
+     * @return 是否成功
+     * @since 1.4.1
+     */
+    public boolean clearExtra() {
+        String token = getToken();
+        if (token != null) {
+            return clearExtra(token);
         }
         return false;
     }
@@ -298,6 +327,35 @@ public class T4s {
             if (split.length == 3) {
                 return Long.parseLong(split[1]);
             }
+        }
+        return null;
+    }
+
+    /**
+     * 获取拓展内容(当前Context)
+     *
+     * @return 拓展内容(不存在返回null)
+     * @since 1.4.1
+     */
+    public String getExtra() {
+        String token = getToken();
+        if (token != null) {
+            return getExtra(token);
+        }
+        return null;
+    }
+
+    /**
+     * 获取拓展内容
+     *
+     * @param token token
+     * @return 拓展内容(不存在返回null)
+     * @since 1.4.1
+     */
+    public String getExtra(String token) {
+        String key = getKey(token);
+        if (key != null) {
+            return (String) rt.get(key);
         }
         return null;
     }
@@ -664,6 +722,7 @@ public class T4s {
      * @param time 时间戳
      * @param id   id
      * @return 32位随机字符串
+     * @since 1.2.1
      */
     public static String encode(long time, long id) {
         StringBuilder sb = new StringBuilder();

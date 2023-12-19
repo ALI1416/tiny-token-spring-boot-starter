@@ -83,19 +83,37 @@ public class IndexController {
     }
 
     /**
-     * 设置拓展内容<br>
-     * http://localhost:8080/setExtra?token=qwe&extra=asd
+     * 设置拓展内容(当前Context)<br>
+     * http://localhost:8080/setExtra?extra=asd
      */
     @GetMapping("setExtra")
+    public boolean setExtra(String extra) {
+        return t4s.setExtra(extra);
+    }
+
+    /**
+     * 设置拓展内容<br>
+     * http://localhost:8080/setExtra2?token=qwe&extra=asd
+     */
+    @GetMapping("setExtra2")
     public boolean setExtra(String token, String extra) {
         return t4s.setExtra(token, extra);
     }
 
     /**
-     * 清除拓展内容<br>
-     * http://localhost:8080/clearExtra?token=qwe
+     * 清除拓展内容(当前Context)<br>
+     * http://localhost:8080/clearExtra
      */
     @GetMapping("clearExtra")
+    public boolean clearExtra() {
+        return t4s.clearExtra();
+    }
+
+    /**
+     * 清除拓展内容<br>
+     * http://localhost:8080/clearExtra2?token=qwe
+     */
+    @GetMapping("clearExtra2")
     public boolean clearExtra(String token) {
         return t4s.clearExtra(token);
     }
@@ -143,6 +161,24 @@ public class IndexController {
     @GetMapping("getId2")
     public Long getId(String token) {
         return t4s.getId(token);
+    }
+
+    /**
+     * 获取拓展内容(当前Context)<br>
+     * http://localhost:8080/getExtra
+     */
+    @GetMapping("getExtra")
+    public String getExtra() {
+        return t4s.getExtra();
+    }
+
+    /**
+     * 获取拓展内容<br>
+     * http://localhost:8080/getExtra?token=qwe
+     */
+    @GetMapping("getExtra2")
+    public String getExtra(String token) {
+        return t4s.getExtra(token);
     }
 
     /**
