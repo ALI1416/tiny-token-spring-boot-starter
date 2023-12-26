@@ -37,7 +37,7 @@
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>id-spring-boot-autoconfigure</artifactId>
-  <version>3.0.1</version>
+  <version>3.1.0</version>
 </dependency>
 ```
 
