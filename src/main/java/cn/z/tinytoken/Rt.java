@@ -7,7 +7,6 @@ import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -42,6 +41,17 @@ public class Rt {
     }
 
     /**
+     * key是否存在(exists)
+     *
+     * @param key 键
+     * @return 是否存在
+     * @since 1.5.0.lite
+     */
+    public Boolean exists(String key) {
+        return redisTemplate.hasKey(key);
+    }
+
+    /**
      * 删除key(del)
      *
      * @param key 键
@@ -49,16 +59,6 @@ public class Rt {
      */
     public Boolean delete(String key) {
         return redisTemplate.delete(key);
-    }
-
-    /**
-     * 删除多个key(del)
-     *
-     * @param keys 键
-     * @return 成功个数
-     */
-    public Long deleteMulti(Collection<String> keys) {
-        return redisTemplate.delete(keys);
     }
 
     /**
@@ -115,18 +115,6 @@ public class Rt {
     }
 
     /**
-     * 放入(set)
-     *
-     * @param <T>   数据类型
-     * @param key   键(已存在会被覆盖)
-     * @param value 值
-     * @since 1.2.0
-     */
-    public <T> void set(String key, T value) {
-        redisTemplate.opsForValue().set(key, value);
-    }
-
-    /**
      * 放入，并设置超时时间(setEX)
      *
      * @param <T>     数据类型
@@ -136,26 +124,6 @@ public class Rt {
      */
     public <T> void set(String key, T value, long timeout) {
         redisTemplate.opsForValue().set(key, value, timeout, TimeUnit.SECONDS);
-    }
-
-    /**
-     * 获取(get)
-     *
-     * @param key 键(不存在返回null)
-     * @return 值
-     */
-    public Object get(String key) {
-        return redisTemplate.opsForValue().get(key);
-    }
-
-    /**
-     * 获取多个(mGet)
-     *
-     * @param keys 多个键(不存在返回null)
-     * @return 值列表
-     */
-    public List<Object> getMulti(Collection<String> keys) {
-        return redisTemplate.opsForValue().multiGet(keys);
     }
 
 }

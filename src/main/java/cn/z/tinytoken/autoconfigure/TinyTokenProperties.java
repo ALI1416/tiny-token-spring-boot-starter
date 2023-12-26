@@ -20,9 +20,9 @@ public class TinyTokenProperties {
      */
     private String header = "token";
     /**
-     * 前缀(默认值"tinytoken")
+     * 前缀(默认值"tinytoken-lite")
      */
-    private String prefix = "tinytoken";
+    private String prefix = "tinytoken-lite";
     /**
      * 过期时间(秒)(默认值2592000[30天])
      */

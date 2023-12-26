@@ -16,29 +16,9 @@ public class UserInfo {
     }
 
     /**
-     * id
-     */
-    private static final ThreadLocal<Long> ID = new NamedThreadLocal<>("UserInfo Id");
-    /**
      * token
      */
     private static final ThreadLocal<String> TOKEN = new NamedThreadLocal<>("UserInfo Token");
-    /**
-     * 拓展内容
-     */
-    private static final ThreadLocal<String> EXTRA = new NamedThreadLocal<>("UserInfo Extra");
-
-    public static Long getId() {
-        return ID.get();
-    }
-
-    public static void setId(Long id) {
-        ID.set(id);
-    }
-
-    public static void removeId() {
-        ID.remove();
-    }
 
     public static String getToken() {
         return TOKEN.get();
@@ -50,18 +30,6 @@ public class UserInfo {
 
     public static void removeToken() {
         TOKEN.remove();
-    }
-
-    public static String getExtra() {
-        return EXTRA.get();
-    }
-
-    public static void setExtra(String extra) {
-        EXTRA.set(extra);
-    }
-
-    public static void removeExtra() {
-        EXTRA.remove();
     }
 
     /**

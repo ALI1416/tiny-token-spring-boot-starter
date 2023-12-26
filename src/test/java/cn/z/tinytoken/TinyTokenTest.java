@@ -52,17 +52,17 @@ class TinyTokenTest {
     }
 
     /**
-     * 解析32位随机字符串
+     * 解析16位随机字符串
      */
     @Test
     void test02Decode() {
         long time = Id.next();
-        long id = 1234L;
-        String encode = T4s.encode(time, id);
-        log.info("time {} id {} -> {}", time, id, encode);
+        String encode = T4s.encode(time);
+        log.info("time {} -> {}", time, encode);
         long[] decode = T4s.decode(encode);
-        log.info("时间戳 {} 机器码 {} 序列号 {} id {}", new Timestamp(decode[0]), decode[1], decode[2], decode[3]);
-        assert id == decode[3];
+        log.info("时间戳 {} 机器码 {} 序列号 {}", new Timestamp(decode[0]), decode[1], decode[2]);
+        long format = Id.format(decode[1], decode[0], decode[2]);
+        assert time == format;
     }
 
 }

@@ -14,7 +14,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * @author ALI[ali-k@foxmail.com]
  * @since 1.0.0
  */
-@EnableConfigurationProperties(TinyTokenProperties.class)
+@EnableConfigurationProperties({TinyTokenProperties.class, TinyTokenAuthProperties.class})
 public class TinyTokenAutoConfiguration {
 
     /**
@@ -25,10 +25,14 @@ public class TinyTokenAutoConfiguration {
     /**
      * 构造函数(自动注入)
      *
-     * @param tinyTokenProperties TinyTokenProperties
+     * @param tinyTokenProperties     TinyTokenProperties
+     * @param tinyTokenAuthProperties TinyTokenAuthProperties
      */
-    public TinyTokenAutoConfiguration(TinyTokenProperties tinyTokenProperties) {
-        log.info("TinyToken配置：header HEADER {} ，前缀PREFIX {} ，过期时间TIMEOUT {} (秒)", tinyTokenProperties.getHeader(), tinyTokenProperties.getPrefix(), tinyTokenProperties.getTimeout());
+    public TinyTokenAutoConfiguration(TinyTokenProperties tinyTokenProperties, TinyTokenAuthProperties tinyTokenAuthProperties) {
+        log.info("TinyToken配置：header HEADER {} ，前缀PREFIX {} ，过期时间TIMEOUT {} (秒) ，用户名USERNAME {} ，密码PASSWORD {}",
+                tinyTokenProperties.getHeader(), tinyTokenProperties.getPrefix(), tinyTokenProperties.getTimeout(),
+                tinyTokenAuthProperties.getUsername(), tinyTokenAuthProperties.getPassword()
+        );
     }
 
 }
