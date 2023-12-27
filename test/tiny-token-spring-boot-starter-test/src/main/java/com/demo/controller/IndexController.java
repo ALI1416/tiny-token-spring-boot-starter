@@ -26,16 +26,7 @@ public class IndexController {
     private final T4s t4s;
 
     /**
-     * 获取参数<br>
-     * http://localhost:8080/getProperties
-     */
-    @GetMapping("getProperties")
-    public String getProperties() {
-        return t4s.getHeader() + " " + t4s.getPrefix() + " " + t4s.getTimeout();
-    }
-
-    /**
-     * 设置token(token使用Base62编码的雪花ID 过期时间使用默认值)<br>
+     * 设置token(token使用32位随机字符串 过期时间使用默认值)<br>
      * http://localhost:8080/setToken?id=123
      */
     @GetMapping("setToken")
@@ -44,7 +35,7 @@ public class IndexController {
     }
 
     /**
-     * 设置token(token使用Base62编码的雪花ID)<br>
+     * 设置token(token使用32位随机字符串)<br>
      * http://localhost:8080/setToken2?id=1234&timeout=100
      */
     @GetMapping("setToken2")
