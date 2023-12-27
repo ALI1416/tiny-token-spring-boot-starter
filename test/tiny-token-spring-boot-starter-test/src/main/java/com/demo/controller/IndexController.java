@@ -25,15 +25,6 @@ public class IndexController {
     private final T4s t4s;
 
     /**
-     * 获取参数<br>
-     * http://localhost:8080/getProperties
-     */
-    @GetMapping("getProperties")
-    public String getProperties() {
-        return t4s.getHeader() + " " + t4s.getPrefix() + " " + t4s.getTimeout();
-    }
-
-    /**
      * 用户名和密码是否正确<br>
      * http://localhost:8080/isCorrect?username=root&password=admin<br>
      * http://localhost:8080/isCorrect?username=root&password=admin1
