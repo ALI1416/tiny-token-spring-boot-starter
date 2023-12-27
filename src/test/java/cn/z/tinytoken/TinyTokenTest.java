@@ -49,6 +49,7 @@ class TinyTokenTest {
         String token = t4s.getToken();
         log.info(token);
         assert tokenValue.equals(token);
+        assert t4s.isCorrect("root", "admin");
     }
 
     /**
@@ -56,13 +57,13 @@ class TinyTokenTest {
      */
     @Test
     void test02Decode() {
-        long time = Id.next();
-        String encode = T4s.encode(time);
-        log.info("time {} -> {}", time, encode);
+        long n = Id.next();
+        String encode = T4s.encode(n);
+        log.info("{} -> {}", n, encode);
         long[] decode = T4s.decode(encode);
         log.info("时间戳 {} 机器码 {} 序列号 {}", new Timestamp(decode[0]), decode[1], decode[2]);
-        long format = Id.format(decode[1], decode[0], decode[2]);
-        assert time == format;
+        long number = Id.format(decode[1], decode[0], decode[2]);
+        assert n == number;
     }
 
 }

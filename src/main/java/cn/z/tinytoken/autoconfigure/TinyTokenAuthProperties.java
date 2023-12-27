@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * </p>
  *
  * @author ALI[ali-k@foxmail.com]
- * @since 1.0.0
+ * @since 1.5.0.lite
  */
 @ConfigurationProperties(prefix = "tiny-token.auth")
 public class TinyTokenAuthProperties {

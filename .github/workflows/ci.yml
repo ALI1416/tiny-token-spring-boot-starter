@@ -2,11 +2,11 @@ name: Java CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "lite" ]
     paths-ignore:
       - '**.md'
   pull_request:
-    branches: [ "master" ]
+    branches: [ "lite" ]
     paths-ignore:
       - '**.md'
   workflow_dispatch:

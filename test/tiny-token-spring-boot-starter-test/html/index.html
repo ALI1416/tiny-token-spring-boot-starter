@@ -15,8 +15,6 @@
   <br>
   <label for="headerText">Header：</label><input id="headerText" type="text" value="token">
   <br>
-  <label for="idText">ID：</label><input id="idText" type="text" value="1">
-  <br>
   <input id="loginBtn" type="button" value="登录">
   <input id="logoutBtn" type="button" value="注销">
   <input id="statusBtn" type="button" value="手动判断登录状态">
@@ -28,7 +26,6 @@
 <script>
   const urlText = document.getElementById('urlText')
   const headerText = document.getElementById('headerText')
-  const idText = document.getElementById('idText')
   const loginBtn = document.getElementById('loginBtn')
   const logoutBtn = document.getElementById('logoutBtn')
   const statusBtn = document.getElementById('statusBtn')
@@ -43,12 +40,12 @@
     if (token === undefined) {
       loginMsg.innerText = '未登录'
     } else {
-      getId().then(res => {
+      getTokenValid().then(res => {
         if (res.length === 0) {
           loginMsg.innerText = '登录已过期'
           localStorage.removeItem(headerText.value)
         } else {
-          loginMsg.innerText = '已登录账号[' + res + '] token[' + token + ']'
+          loginMsg.innerText = '已登录账号 token[' + token + ']'
         }
       })
     }
@@ -66,9 +63,9 @@
       errorMsg.innerText = '已登录账号 不可重复登录'
       return
     }
-    login(idText.value).then(res => {
+    login().then(res => {
       localStorage[headerText.value] = res
-      loginMsg.innerText = '登录成功 账号[' + idText.value + '] token[' + res + ']'
+      loginMsg.innerText = '登录成功 token[' + res + ']'
     })
   })
 
@@ -92,17 +89,17 @@
   })
 
   /**
-   * 获取登录id
+   * 获取有效token
    */
-  function getId() {
-    return myFetch('getId')
+  function getTokenValid() {
+    return myFetch('getTokenValid')
   }
 
   /**
    * 登录
    */
-  function login(id) {
-    return myFetch('setToken?id=' + id)
+  function login() {
+    return myFetch('setToken')
   }
 
   /**

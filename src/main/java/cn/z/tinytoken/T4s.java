@@ -28,23 +28,15 @@ public class T4s {
      */
     private static final Random RANDOM = new Random();
     /**
-     * header
+     * 轻量级权限认证配置属性
      */
-    private final String header;
-    /**
-     * 前缀
-     */
-    private final String prefix;
-    /**
-     * 过期时间(秒)
-     */
-    private final long timeout;
+    private final TinyTokenProperties tinyTokenProperties;
     /**
      * 轻量级权限认证验证配置属性
      */
     private final TinyTokenAuthProperties tinyTokenAuthProperties;
     /**
-     * Redis模板类
+     * Redis模板
      */
     private final Rt rt;
 
@@ -56,38 +48,9 @@ public class T4s {
      * @param rt                      Rt
      */
     public T4s(TinyTokenProperties tinyTokenProperties, TinyTokenAuthProperties tinyTokenAuthProperties, Rt rt) {
-        this.header = tinyTokenProperties.getHeader();
-        this.prefix = tinyTokenProperties.getPrefix();
-        this.timeout = tinyTokenProperties.getTimeout();
+        this.tinyTokenProperties = tinyTokenProperties;
         this.tinyTokenAuthProperties = tinyTokenAuthProperties;
         this.rt = rt;
-    }
-
-    /**
-     * 获取header
-     *
-     * @return 前缀
-     */
-    public String getHeader() {
-        return header;
-    }
-
-    /**
-     * 获取前缀
-     *
-     * @return 前缀
-     */
-    public String getPrefix() {
-        return prefix;
-    }
-
-    /**
-     * 获取过期时间(秒)
-     *
-     * @return 过期时间(秒)
-     */
-    public long getTimeout() {
-        return timeout;
     }
 
     /**
@@ -108,7 +71,7 @@ public class T4s {
      */
     public String setToken() {
         String token = encode(Id.next());
-        setToken(token, timeout);
+        setToken(token, tinyTokenProperties.getTimeout());
         return token;
     }
 
@@ -131,7 +94,7 @@ public class T4s {
      * @param timeout 过期时间(秒)
      */
     public void setToken(String token, long timeout) {
-        rt.set(prefix + ":" + token, "", timeout);
+        rt.set(tinyTokenProperties.getPrefix() + ":" + token, "", timeout);
     }
 
     /**
@@ -145,7 +108,7 @@ public class T4s {
         if (requestAttributes == null) {
             throw new TinyTokenException("不存在Context");
         }
-        return ((ServletRequestAttributes) requestAttributes).getRequest().getHeader(header);
+        return ((ServletRequestAttributes) requestAttributes).getRequest().getHeader(tinyTokenProperties.getHeader());
     }
 
     /**
@@ -177,7 +140,7 @@ public class T4s {
      * @return 是否存在
      */
     public boolean existByToken(String token) {
-        return rt.exists(prefix + ":" + token);
+        return rt.exists(tinyTokenProperties.getPrefix() + ":" + token);
     }
 
     /**
@@ -200,7 +163,7 @@ public class T4s {
      * @return 是否成功
      */
     public Boolean deleteByToken(String token) {
-        return rt.delete(prefix + ":" + token);
+        return rt.delete(tinyTokenProperties.getPrefix() + ":" + token);
     }
 
     /**
@@ -211,7 +174,7 @@ public class T4s {
     public Boolean expire() {
         String token = getToken();
         if (token != null) {
-            return expire(token, timeout);
+            return expire(token, tinyTokenProperties.getTimeout());
         }
         return false;
     }
@@ -237,7 +200,7 @@ public class T4s {
      * @return 是否成功
      */
     public Boolean expire(String token) {
-        return expire(token, timeout);
+        return expire(token, tinyTokenProperties.getTimeout());
     }
 
     /**
@@ -248,7 +211,7 @@ public class T4s {
      * @return 是否成功
      */
     public Boolean expire(String token, long timeout) {
-        return rt.expire(prefix + ":" + token, timeout);
+        return rt.expire(tinyTokenProperties.getPrefix() + ":" + token, timeout);
     }
 
     /**
@@ -271,7 +234,7 @@ public class T4s {
      * @return 是否成功
      */
     public Boolean persist(String token) {
-        return rt.persist(prefix + ":" + token);
+        return rt.persist(tinyTokenProperties.getPrefix() + ":" + token);
     }
 
     /**
@@ -296,7 +259,7 @@ public class T4s {
      * (不存在返回null)
      */
     public Map.Entry<String, Long> getInfoByToken(String token) {
-        long expire = rt.getExpire(prefix + ":" + token);
+        long expire = rt.getExpire(tinyTokenProperties.getPrefix() + ":" + token);
         if (expire > -2) {
             return new AbstractMap.SimpleEntry<>(token, expire);
         }
@@ -309,7 +272,7 @@ public class T4s {
      * @return 键列表(不存在返回[])
      */
     private List<String> getKey() {
-        return rt.scan(prefix + ":*");
+        return rt.scan(tinyTokenProperties.getPrefix() + ":*");
     }
 
     /**
@@ -332,22 +295,22 @@ public class T4s {
     /**
      * 获取所有信息列表
      *
-     * @return token, 过期时间(秒)[-1:不过期]<br>
-     * (不存在返回空map)
+     * @return token, 过期时间(秒)[-1:不过期]列表<br>
+     * (不存在返回[])
      */
-    public Map<String, Long> getInfo() {
-        Map<String, Long> map = new HashMap<>();
+    public List<Map.Entry<String, Long>> getInfo() {
+        List<Map.Entry<String, Long>> list = new ArrayList<>();
         List<String> keys = getKey();
         for (String key : keys) {
             long expire = rt.getExpire(key);
             if (expire > -2) {
                 String[] split = key.split(":", -1);
                 if (split.length == 2) {
-                    map.put(split[1], expire);
+                    list.add(new AbstractMap.SimpleEntry<>(split[1], expire));
                 }
             }
         }
-        return map;
+        return list;
     }
 
     /**
@@ -373,38 +336,42 @@ public class T4s {
     /**
      * 生成16位随机字符串
      *
-     * @param time 时间戳
+     * @param n 数字
      * @return 16位随机字符串
      */
-    public static String encode(long time) {
-        StringBuilder sb = new StringBuilder();
+    public static String encode(long n) {
+        StringBuilder result = new StringBuilder(16);
+        StringBuilder random = new StringBuilder(10);
         for (int i = 0; i < 5; i++) {
-            sb.append((char) Base62.ALPHABET[RANDOM.nextInt(62)]);
+            char r = (char) Base62.ALPHABET[RANDOM.nextInt(62)];
+            result.append(r);
+            random.append(r);
+            random.append((char) Base62.ALPHABET[14 * i + 4]);
         }
-        String er = sb.toString();
-        long random = Base62.decode(er);
-        long tr = time ^ random;
-        StringBuilder etr = new StringBuilder(Base62.encode(tr));
-        int etrL = 11 - etr.length();
-        for (int i = 0; i < etrL; i++) {
-            etr.insert(0, (char) Base62.ALPHABET[0]);
+        String number = Base62.encode(n ^ Base62.decode(random.toString()));
+        char zero = (char) Base62.ALPHABET[0];
+        for (int i = 0; i < 11 - number.length(); i++) {
+            result.append(zero);
         }
-        return er + etr;
+        result.append(number);
+        return result.toString();
     }
 
     /**
      * 解析16位随机字符串
      *
-     * @param string 16位随机字符串
+     * @param s 16位随机字符串
      * @return [0] timestamp 时间戳<br>
      * [1] machineId 机器码<br>
      * [2] sequence  序列号
      */
-    public static long[] decode(String string) {
-        long dr = Base62.decode(string.substring(0, 5));
-        long dtr = Base62.decode(string.substring(5, 16));
-        long dt = dr ^ dtr;
-        return Id.parse(dt);
+    public static long[] decode(String s) {
+        StringBuilder random = new StringBuilder(10);
+        for (int i = 0; i < 5; i++) {
+            random.append(s.charAt(i));
+            random.append((char) Base62.ALPHABET[14 * i + 4]);
+        }
+        return Id.parse(Base62.decode(random.toString()) ^ Base62.decode(s.substring(5, 16)));
     }
 
 }

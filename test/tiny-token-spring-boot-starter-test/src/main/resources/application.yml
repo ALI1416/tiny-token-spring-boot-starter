@@ -15,8 +15,11 @@ spring:
 
 tiny-token:
   header: token
-  prefix: tinytoken
+  prefix: tinytoken-lite
   timeout: 2592000
+  auth:
+    username: root
+    password: admin
 
 id:
   machine-id: 0

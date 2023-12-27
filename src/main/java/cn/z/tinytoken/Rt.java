@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * <h1>Redis模板类</h1>
+ * <h1>Redis模板</h1>
  *
  * <p>
  * createDate 2023/08/01 16:20:58

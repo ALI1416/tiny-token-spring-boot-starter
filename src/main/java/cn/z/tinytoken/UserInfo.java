@@ -1,5 +1,7 @@
 package cn.z.tinytoken;
 
+import org.springframework.core.NamedThreadLocal;
+
 /**
  * <h1>用户信息</h1>
  *
@@ -30,32 +32,6 @@ public class UserInfo {
 
     public static void removeToken() {
         TOKEN.remove();
-    }
-
-    /**
-     * 命名本地线程
-     */
-    private static class NamedThreadLocal<T> extends ThreadLocal<T> {
-
-        /**
-         * 线程名
-         */
-        private final String name;
-
-        /**
-         * 构造函数
-         *
-         * @param name 线程名
-         */
-        public NamedThreadLocal(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return this.name;
-        }
-
     }
 
 }

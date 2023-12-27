@@ -1,13 +1,12 @@
 package com.demo.controller;
 
 import cn.z.tinytoken.T4s;
-import cn.z.tinytoken.entity.TokenInfo;
-import cn.z.tinytoken.entity.TokenInfoExtra;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <h1>首页</h1>
@@ -35,87 +34,41 @@ public class IndexController {
     }
 
     /**
-     * 设置token(token使用Base62编码的雪花ID 过期时间使用默认值)<br>
-     * http://localhost:8080/setToken?id=123
+     * 用户名和密码是否正确<br>
+     * http://localhost:8080/isCorrect?username=root&password=admin<br>
+     * http://localhost:8080/isCorrect?username=root&password=admin1
+     */
+    @GetMapping("isCorrect")
+    public boolean isCorrect(String username, String password) {
+        return t4s.isCorrect(username, password);
+    }
+
+    /**
+     * 设置token(token使用16位随机字符串 过期时间使用默认值)<br>
+     * http://localhost:8080/setToken
      */
     @GetMapping("setToken")
-    public String setToken(long id) {
-        return t4s.setToken(id);
+    public String setToken() {
+        return t4s.setToken();
     }
 
     /**
-     * 设置token(token使用Base62编码的雪花ID)<br>
-     * http://localhost:8080/setToken2?id=1234&timeout=100
+     * 设置token(token使用16位随机字符串)<br>
+     * http://localhost:8080/setToken2?timeout=100
      */
     @GetMapping("setToken2")
-    public String setToken(long id, long timeout) {
-        return t4s.setToken(id, timeout);
+    public String setToken(long timeout) {
+        return t4s.setToken(timeout);
     }
 
     /**
-     * 设置token(过期时间使用默认值)<br>
-     * http://localhost:8080/setToken3?id=12345&token=qwe
+     * 设置token<br>
+     * http://localhost:8080/setToken3?token=qwe&timeout=100
      */
     @GetMapping("setToken3")
-    public String setToken(long id, String token) {
-        t4s.setToken(id, token);
+    public String setToken(String token, long timeout) {
+        t4s.setToken(token, timeout);
         return "ok";
-    }
-
-    /**
-     * 设置token<br>
-     * http://localhost:8080/setToken4?id=12346&token=qwe&timeout=100
-     */
-    @GetMapping("setToken4")
-    public String setToken(long id, String token, long timeout) {
-        t4s.setToken(id, token, timeout);
-        return "ok";
-    }
-
-    /**
-     * 设置token<br>
-     * http://localhost:8080/setToken5?id=123467&token=qwe&extra=asd&timeout=100
-     */
-    @GetMapping("setToken5")
-    public String setToken(long id, String token, String extra, long timeout) {
-        t4s.setToken(id, token, extra, timeout);
-        return "ok";
-    }
-
-    /**
-     * 设置拓展内容(当前Context)<br>
-     * http://localhost:8080/setExtra?extra=asd
-     */
-    @GetMapping("setExtra")
-    public boolean setExtra(String extra) {
-        return t4s.setExtra(extra);
-    }
-
-    /**
-     * 设置拓展内容<br>
-     * http://localhost:8080/setExtra2?token=qwe&extra=asd
-     */
-    @GetMapping("setExtra2")
-    public boolean setExtra(String token, String extra) {
-        return t4s.setExtra(token, extra);
-    }
-
-    /**
-     * 清除拓展内容(当前Context)<br>
-     * http://localhost:8080/clearExtra
-     */
-    @GetMapping("clearExtra")
-    public boolean clearExtra() {
-        return t4s.clearExtra();
-    }
-
-    /**
-     * 清除拓展内容<br>
-     * http://localhost:8080/clearExtra2?token=qwe
-     */
-    @GetMapping("clearExtra2")
-    public boolean clearExtra(String token) {
-        return t4s.clearExtra(token);
     }
 
     /**
@@ -137,51 +90,6 @@ public class IndexController {
     }
 
     /**
-     * 获取token列表<br>
-     * http://localhost:8080/getToken2?id=123
-     */
-    @GetMapping("getToken2")
-    public List<String> getToken(long id) {
-        return t4s.getToken(id);
-    }
-
-    /**
-     * 获取id(当前Context)<br>
-     * http://localhost:8080/getId
-     */
-    @GetMapping("getId")
-    public Long getId() {
-        return t4s.getId();
-    }
-
-    /**
-     * 获取id<br>
-     * http://localhost:8080/getId2?token=qwe
-     */
-    @GetMapping("getId2")
-    public Long getId(String token) {
-        return t4s.getId(token);
-    }
-
-    /**
-     * 获取拓展内容(当前Context)<br>
-     * http://localhost:8080/getExtra
-     */
-    @GetMapping("getExtra")
-    public String getExtra() {
-        return t4s.getExtra();
-    }
-
-    /**
-     * 获取拓展内容<br>
-     * http://localhost:8080/getExtra?token=qwe
-     */
-    @GetMapping("getExtra2")
-    public String getExtra(String token) {
-        return t4s.getExtra(token);
-    }
-
-    /**
      * token是否存在(当前Context)<br>
      * http://localhost:8080/existByToken
      */
@@ -200,15 +108,6 @@ public class IndexController {
     }
 
     /**
-     * id是否存在<br>
-     * http://localhost:8080/existById?id=123
-     */
-    @GetMapping("existById")
-    public boolean existById(long id) {
-        return t4s.existById(id);
-    }
-
-    /**
      * 删除(当前Context)<br>
      * http://localhost:8080/deleteByToken
      */
@@ -224,15 +123,6 @@ public class IndexController {
     @GetMapping("deleteByToken2")
     public Boolean deleteByToken(String token) {
         return t4s.deleteByToken(token);
-    }
-
-    /**
-     * 删除<br>
-     * http://localhost:8080/deleteById?id=123
-     */
-    @GetMapping("deleteById")
-    public Long deleteById(long id) {
-        return t4s.deleteById(id);
     }
 
     /**
@@ -294,7 +184,7 @@ public class IndexController {
      * http://localhost:8080/getInfoByToken
      */
     @GetMapping("getInfoByToken")
-    public TokenInfo getInfoByToken() {
+    public Map.Entry<String, Long> getInfoByToken() {
         return t4s.getInfoByToken();
     }
 
@@ -303,17 +193,17 @@ public class IndexController {
      * http://localhost:8080/getInfoByToken2?token=qwe
      */
     @GetMapping("getInfoByToken2")
-    public TokenInfo getInfoByToken(String token) {
+    public Map.Entry<String, Long> getInfoByToken(String token) {
         return t4s.getInfoByToken(token);
     }
 
     /**
-     * 获取信息列表<br>
-     * http://localhost:8080/getInfoById?id=123
+     * 获取token列表<br>
+     * http://localhost:8080/getTokenList
      */
-    @GetMapping("getInfoById")
-    public List<TokenInfo> getInfoById(long id) {
-        return t4s.getInfoById(id);
+    @GetMapping("getTokenList")
+    public List<String> getTokenList() {
+        return t4s.getTokenList();
     }
 
     /**
@@ -321,7 +211,7 @@ public class IndexController {
      * http://localhost:8080/getInfo
      */
     @GetMapping("getInfo")
-    public List<TokenInfo> getInfo() {
+    public List<Map.Entry<String, Long>> getInfo() {
         return t4s.getInfo();
     }
 
@@ -330,53 +220,8 @@ public class IndexController {
      * http://localhost:8080/getInfoPersist
      */
     @GetMapping("getInfoPersist")
-    public List<TokenInfo> getInfoPersist() {
+    public List<String> getInfoPersist() {
         return t4s.getInfoPersist();
-    }
-
-    /**
-     * 获取拓展信息(当前Context)<br>
-     * http://localhost:8080/getInfoExtraByToken
-     */
-    @GetMapping("getInfoExtraByToken")
-    public TokenInfoExtra getInfoExtraByToken() {
-        return t4s.getInfoExtraByToken();
-    }
-
-    /**
-     * 获取拓展信息<br>
-     * http://localhost:8080/getInfoExtraByToken2?token=qwe
-     */
-    @GetMapping("getInfoExtraByToken2")
-    public TokenInfoExtra getInfoExtraByToken(String token) {
-        return t4s.getInfoExtraByToken(token);
-    }
-
-    /**
-     * 获取信息拓展列表<br>
-     * http://localhost:8080/getInfoExtraById?id=123
-     */
-    @GetMapping("getInfoExtraById")
-    public List<TokenInfoExtra> getInfoExtraById(long id) {
-        return t4s.getInfoExtraById(id);
-    }
-
-    /**
-     * 获取所有信息拓展列表<br>
-     * http://localhost:8080/getInfoExtra
-     */
-    @GetMapping("getInfoExtra")
-    public List<TokenInfoExtra> getInfoExtra() {
-        return t4s.getInfoExtra();
-    }
-
-    /**
-     * 获取所有永不过期信息拓展列表<br>
-     * http://localhost:8080/getInfoExtraPersist
-     */
-    @GetMapping("getInfoExtraPersist")
-    public List<TokenInfoExtra> getInfoExtraPersist() {
-        return t4s.getInfoExtraPersist();
     }
 
 }
