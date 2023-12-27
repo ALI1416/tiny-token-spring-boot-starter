@@ -1,6 +1,7 @@
 package cn.z.tinytoken;
 
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.ConvertingCursor;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * <h1>Redis模板类</h1>
+ * <h1>Redis模板</h1>
  *
  * <p>
  * createDate 2023/08/01 16:20:58
@@ -75,9 +76,15 @@ public class Rt {
      */
     public List<String> scan(String match) {
         List<String> list = new ArrayList<>();
-        try (Cursor<String> cursor = redisTemplate.scan(ScanOptions.scanOptions().match(match).count(1000).build())) {
-            while (cursor.hasNext()) {
-                list.add(cursor.next());
+        try (Cursor<String> cursor = (Cursor<String>) redisTemplate.executeWithStickyConnection(
+                connection -> new ConvertingCursor<>(
+                        connection.scan(ScanOptions.scanOptions().match(match).count(1000).build()),
+                        redisTemplate.getKeySerializer()::deserialize)
+        )) {
+            if (cursor != null) {
+                while (cursor.hasNext()) {
+                    list.add(cursor.next());
+                }
             }
         }
         return list;
