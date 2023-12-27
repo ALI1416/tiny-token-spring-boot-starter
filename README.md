@@ -46,7 +46,7 @@
 ```java
 // 注入
 private final T4s t4s;
-// 设置token(token使用Base62编码的雪花ID 过期时间使用默认值)
+// 设置token(token使用32位随机字符串 过期时间使用默认值)
 t4s.setToken(id);
 // 获取token(当前Context 不判断是否有效)
 t4s.getToken();
