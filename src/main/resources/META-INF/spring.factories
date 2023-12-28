@@ -1,5 +1,4 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 cn.z.tinytoken.autoconfigure.TinyTokenAutoConfiguration,\
-cn.z.tinytoken.T4s,\
-cn.z.tinytoken.Rt
+cn.z.tinytoken.T4s

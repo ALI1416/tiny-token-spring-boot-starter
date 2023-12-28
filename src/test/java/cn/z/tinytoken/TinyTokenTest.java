@@ -1,6 +1,5 @@
 package cn.z.tinytoken;
 
-import cn.z.id.Id;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -11,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import java.sql.Timestamp;
 
 /**
  * <h1>轻量级权限认证测试</h1>
@@ -42,28 +39,29 @@ class TinyTokenTest {
      */
     @Test
     void test00Normal() {
-        String tokenValue = "1234";
+        String username = "root";
+        String password = "admin";
+        String encode = T4s.encode(username + ":" + password);
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader("token", tokenValue);
+        request.addHeader("Authorization", encode);
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        String token = t4s.getToken();
-        log.info(token);
-        assert tokenValue.equals(token);
-        assert t4s.isCorrect("root", "admin");
+        String auth = t4s.getAuth();
+        log.info("encode {} auth {}", encode, auth);
+        assert t4s.isCorrect(auth);
     }
 
     /**
-     * 解析16位随机字符串
+     * base64
      */
     @Test
-    void test02Decode() {
-        long n = Id.next();
-        String encode = T4s.encode(n);
-        log.info("{} -> {}", n, encode);
-        long[] decode = T4s.decode(encode);
-        log.info("时间戳 {} 机器码 {} 序列号 {}", new Timestamp(decode[0]), decode[1], decode[2]);
-        long number = Id.format(decode[1], decode[0], decode[2]);
-        assert n == number;
+    void testBase64() {
+        String username = "123";
+        String password = "456";
+        String s = username + ":" + password;
+        String encode = T4s.encode(s);
+        String decode = T4s.decode(encode);
+        log.info("s {} encode {} decode {}", s, encode, decode);
+        assert s.equals(decode);
     }
 
 }

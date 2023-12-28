@@ -16,17 +16,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class TinyTokenProperties {
 
     /**
-     * header(默认值"token")
+     * header(默认值"Authorization")
      */
-    private String header = "token";
+    private String header = "Authorization";
     /**
-     * 前缀(默认值"tinytoken-lite")
+     * 用户名
      */
-    private String prefix = "tinytoken-lite";
+    private String username;
     /**
-     * 过期时间(秒)(默认值2592000[30天])
+     * 密码
      */
-    private long timeout = 2592000L;
+    private String password;
 
     public String getHeader() {
         return header;
@@ -36,20 +36,20 @@ public class TinyTokenProperties {
         this.header = header;
     }
 
-    public String getPrefix() {
-        return prefix;
+    public String getUsername() {
+        return username;
     }
 
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public long getTimeout() {
-        return timeout;
+    public String getPassword() {
+        return password;
     }
 
-    public void setTimeout(long timeout) {
-        this.timeout = timeout;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

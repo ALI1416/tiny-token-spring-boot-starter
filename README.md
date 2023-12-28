@@ -1,4 +1,4 @@
-# Tiny Token SpringBoot Starter (Lite Version) 轻量级权限认证SpringBoot启动器(精简版)
+# Tiny Token SpringBoot Starter (Basic Authentication Version) 轻量级权限认证SpringBoot启动器(基本认证版)
 
 [![License](https://img.shields.io/github/license/ALI1416/tiny-token-spring-boot-starter?label=License)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Java Support](https://img.shields.io/badge/Java-8+-green)](https://openjdk.org/)
@@ -6,7 +6,7 @@
 [![Tag](https://img.shields.io/github/v/tag/ALI1416/tiny-token-spring-boot-starter?label=Tag)](https://github.com/ALI1416/tiny-token-spring-boot-starter/tags)
 [![Repo Size](https://img.shields.io/github/repo-size/ALI1416/tiny-token-spring-boot-starter?label=Repo%20Size&color=success)](https://github.com/ALI1416/tiny-token-spring-boot-starter/archive/refs/heads/master.zip)
 
-[![Java CI](https://github.com/ALI1416/tiny-token-spring-boot-starter/actions/workflows/ci.yml/badge.svg?branch=lite)](https://github.com/ALI1416/tiny-token-spring-boot-starter/actions/workflows/ci.yml)
+[![Java CI](https://github.com/ALI1416/tiny-token-spring-boot-starter/actions/workflows/ci.yml/badge.svg?branch=auth)](https://github.com/ALI1416/tiny-token-spring-boot-starter/actions/workflows/ci.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ALI1416_tiny-token-spring-boot-starter&metric=coverage)
 ![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ALI1416_tiny-token-spring-boot-starter&metric=reliability_rating)
 ![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ALI1416_tiny-token-spring-boot-starter&metric=sqale_rating)
@@ -14,7 +14,7 @@
 
 ## 简介
 
-轻量级权限认证SpringBoot实现，使用Redis、雪花ID、Base62等技术
+轻量级权限认证SpringBoot实现
 
 ## 依赖导入
 
@@ -22,22 +22,12 @@
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.6.0.lite</version>
+  <version>1.6.1.auth</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-web</artifactId>
   <version>2.7.15</version>
-</dependency>
-<dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-starter-data-redis</artifactId>
-  <version>2.7.15</version>
-</dependency>
-<dependency>
-  <groupId>cn.404z</groupId>
-  <artifactId>id-spring-boot-autoconfigure</artifactId>
-  <version>3.1.1</version>
 </dependency>
 ```
 
@@ -46,22 +36,8 @@
 ```java
 // 注入
 private final T4s t4s;
-// 用户名和密码是否正确
-t4s.isCorrect(username, password);
-// 设置token(token使用16位随机字符串 过期时间使用默认值)
-t4s.setToken();
-// 获取token(当前Context 不判断是否有效)
-t4s.getToken();
-// 获取token(当前Context 判断是否有效)
-t4s.getTokenValid();
-// 删除(当前Context)
-t4s.deleteByToken();
-// 设置过期时间(当前Context 过期时间使用默认值)
-t4s.expire();
-// 设置永不过期(当前Context)
-t4s.persist();
-// 获取信息(当前Context)
-t4s.getInfoByToken();
+// Authorization是否正确(当前Context)
+t4s.isCorrect();
 ```
 
 更多请见[测试](./test/tiny-token-spring-boot-starter-test)

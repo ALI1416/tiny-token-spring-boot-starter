@@ -1,12 +1,4 @@
 tiny-token:
-  header: token
-  prefix: tinytoken-lite
-  timeout: 2592000
-  auth:
-    username: root
-    password: admin
-
-id:
-  machine-id: 0
-  machine-bits: 8
-  sequence-bits: 12
+  header: Authorization
+  username: root
+  password: admin
