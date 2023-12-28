@@ -16,6 +16,13 @@
 
 轻量级权限认证SpringBoot实现，使用Redis、雪花ID、Base62等技术
 
+### 其他版本
+
+- [兼容模式](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/low) 支持`SpringBoot 2.7.0`以下版本
+- [精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/lite) 去除`id`字段、`拓展内容`字段、新增`用户名密码校验`
+- [兼容模式 精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/low.lite)
+- [基本认证版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/auth) 仅提供`Basic Authentication`认证
+
 ## 依赖导入
 
 ```xml
