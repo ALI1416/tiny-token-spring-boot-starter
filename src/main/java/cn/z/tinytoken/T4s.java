@@ -7,6 +7,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -108,7 +109,18 @@ public class T4s {
         if (requestAttributes == null) {
             throw new TinyTokenException("不存在Context");
         }
-        return ((ServletRequestAttributes) requestAttributes).getRequest().getHeader(tinyTokenProperties.getHeader());
+        return getToken(((ServletRequestAttributes) requestAttributes).getRequest());
+    }
+
+    /**
+     * 获取token(不判断是否有效)
+     *
+     * @param request HttpServletRequest
+     * @return token(不存在返回null)
+     * @since 1.6.1
+     */
+    public String getToken(HttpServletRequest request) {
+        return request.getHeader(tinyTokenProperties.getHeader());
     }
 
     /**
@@ -125,12 +137,38 @@ public class T4s {
     }
 
     /**
+     * 获取token(判断是否有效)
+     *
+     * @param request HttpServletRequest
+     * @return token(不存在或无效返回null)
+     * @since 1.6.1
+     */
+    public String getTokenValid(HttpServletRequest request) {
+        String token = getToken(request);
+        if (token != null && existByToken(token)) {
+            return token;
+        }
+        return null;
+    }
+
+    /**
      * token是否存在(当前Context)
      *
      * @return 是否存在
      */
     public boolean existByToken() {
         return getTokenValid() != null;
+    }
+
+    /**
+     * token是否存在
+     *
+     * @param request HttpServletRequest
+     * @return 是否存在
+     * @since 1.6.1
+     */
+    public boolean existByToken(HttpServletRequest request) {
+        return getTokenValid(request) != null;
     }
 
     /**
@@ -150,6 +188,21 @@ public class T4s {
      */
     public Boolean deleteByToken() {
         String token = getToken();
+        if (token != null) {
+            return deleteByToken(token);
+        }
+        return false;
+    }
+
+    /**
+     * 删除
+     *
+     * @param request HttpServletRequest
+     * @return 是否成功
+     * @since 1.6.1
+     */
+    public Boolean deleteByToken(HttpServletRequest request) {
+        String token = getToken(request);
         if (token != null) {
             return deleteByToken(token);
         }
@@ -180,6 +233,21 @@ public class T4s {
     }
 
     /**
+     * 设置过期时间(过期时间使用默认值)
+     *
+     * @param request HttpServletRequest
+     * @return 是否成功
+     * @since 1.6.1
+     */
+    public Boolean expire(HttpServletRequest request) {
+        String token = getToken(request);
+        if (token != null) {
+            return expire(token, tinyTokenProperties.getTimeout());
+        }
+        return false;
+    }
+
+    /**
      * 设置过期时间(当前Context)
      *
      * @param timeout 过期时间(秒)
@@ -187,6 +255,22 @@ public class T4s {
      */
     public Boolean expire(long timeout) {
         String token = getToken();
+        if (token != null) {
+            return expire(token, timeout);
+        }
+        return false;
+    }
+
+    /**
+     * 设置过期时间
+     *
+     * @param request HttpServletRequest
+     * @param timeout 过期时间(秒)
+     * @return 是否成功
+     * @since 1.6.1
+     */
+    public Boolean expire(HttpServletRequest request, long timeout) {
+        String token = getToken(request);
         if (token != null) {
             return expire(token, timeout);
         }
@@ -230,6 +314,21 @@ public class T4s {
     /**
      * 设置永不过期
      *
+     * @param request HttpServletRequest
+     * @return 是否成功
+     * @since 1.6.1
+     */
+    public Boolean persist(HttpServletRequest request) {
+        String token = getToken(request);
+        if (token != null) {
+            return persist(token);
+        }
+        return false;
+    }
+
+    /**
+     * 设置永不过期
+     *
      * @param token token
      * @return 是否成功
      */
@@ -245,6 +344,22 @@ public class T4s {
      */
     public Map.Entry<String, Long> getInfoByToken() {
         String token = getToken();
+        if (token != null) {
+            return getInfoByToken(token);
+        }
+        return null;
+    }
+
+    /**
+     * 获取信息
+     *
+     * @param request HttpServletRequest
+     * @return token, 过期时间(秒)[-1:不过期]<br>
+     * (不存在返回null)
+     * @since 1.6.1
+     */
+    public Map.Entry<String, Long> getInfoByToken(HttpServletRequest request) {
+        String token = getToken(request);
         if (token != null) {
             return getInfoByToken(token);
         }
