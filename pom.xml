@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.6.1.auth</version>
+  <version>1.6.2.auth</version>
 
   <parent>
     <groupId>cn.404z</groupId>

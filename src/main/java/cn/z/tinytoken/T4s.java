@@ -66,7 +66,7 @@ public class T4s {
      * @throws TinyTokenException 不存在Context
      */
     public boolean isCorrect() {
-        return isCorrect(getAuth());
+        return isCorrect();
     }
 
     /**
@@ -86,6 +86,9 @@ public class T4s {
      * @return Authorization正确
      */
     public boolean isCorrect(String auth) {
+        if (auth == null) {
+            return false;
+        }
         return decode(auth).equals(tinyTokenProperties.getUsername() + ":" + tinyTokenProperties.getPassword());
     }
 
