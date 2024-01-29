@@ -4,11 +4,11 @@ import cn.z.id.Id;
 import cn.z.tinytoken.autoconfigure.TinyTokenProperties;
 import cn.z.tinytoken.entity.TokenInfo;
 import cn.z.tinytoken.entity.TokenInfoExtra;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

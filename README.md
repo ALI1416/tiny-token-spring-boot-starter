@@ -1,4 +1,4 @@
-# Tiny Token SpringBoot Starter 轻量级权限认证SpringBoot启动器
+# Tiny Token SpringBoot Starter (SpringBoot 3.x) 轻量级权限认证SpringBoot启动器 (SpringBoot 3.x版)
 
 [![License](https://img.shields.io/github/license/ALI1416/tiny-token-spring-boot-starter?label=License)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Java Support](https://img.shields.io/badge/Java-8+-green)](https://openjdk.org/)
@@ -22,6 +22,8 @@
 - [精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/lite) 去除`id`字段、`拓展内容`字段、新增`用户名密码校验`
 - [兼容模式 精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/low.lite)
 - [基本认证版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/auth) 仅提供`Basic Authentication`认证
+- [SpringBoot 3.x版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3) 支持`SpringBoot 3.0.0`以上版本
+- [SpringBoot 3.x 精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3.lite)
 
 ## 依赖导入
 
@@ -29,22 +31,22 @@
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.6.3</version>
+  <version>1.6.3.v3</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-web</artifactId>
-  <version>2.7.15</version>
+  <version>3.2.2</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-data-redis</artifactId>
-  <version>2.7.15</version>
+  <version>3.2.2</version>
 </dependency>
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>id-spring-boot-autoconfigure</artifactId>
-  <version>3.1.2</version>
+  <version>3.2.2</version>
 </dependency>
 ```
 
