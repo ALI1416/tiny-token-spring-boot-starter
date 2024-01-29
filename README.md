@@ -1,10 +1,10 @@
-# Tiny Token SpringBoot Starter (Lite Version) 轻量级权限认证SpringBoot启动器(精简版)
+# Tiny Token SpringBoot Starter (SpringBoot 3.x Lite Version) 轻量级权限认证SpringBoot启动器(SpringBoot 3.x 精简版)
 
 [![License](https://img.shields.io/github/license/ALI1416/tiny-token-spring-boot-starter?label=License)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Java Support](https://img.shields.io/badge/Java-8+-green)](https://openjdk.org/)
 [![Maven Central](https://img.shields.io/maven-central/v/cn.404z/tiny-token-spring-boot-starter?label=Maven%20Central)](https://mvnrepository.com/artifact/cn.404z/tiny-token-spring-boot-starter)
 [![Tag](https://img.shields.io/github/v/tag/ALI1416/tiny-token-spring-boot-starter?label=Tag)](https://github.com/ALI1416/tiny-token-spring-boot-starter/tags)
-[![Repo Size](https://img.shields.io/github/repo-size/ALI1416/tiny-token-spring-boot-starter?label=Repo%20Size&color=success)](https://github.com/ALI1416/tiny-token-spring-boot-starter/archive/refs/heads/master.zip)
+[![Repo Size](https://img.shields.io/github/repo-size/ALI1416/tiny-token-spring-boot-starter?label=Repo%20Size&color=success)](https://github.com/ALI1416/tiny-token-spring-boot-starter/archive/refs/heads/v3.lite.zip)
 
 [![Java CI](https://github.com/ALI1416/tiny-token-spring-boot-starter/actions/workflows/ci.yml/badge.svg?branch=lite)](https://github.com/ALI1416/tiny-token-spring-boot-starter/actions/workflows/ci.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ALI1416_tiny-token-spring-boot-starter&metric=coverage)
@@ -16,23 +16,32 @@
 
 轻量级权限认证SpringBoot实现，使用Redis、雪花ID、Base62等技术
 
+### 其他版本
+
+- [兼容模式](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/low) 支持`SpringBoot 2.7.0`以下版本
+- [精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/lite) 去除`id`字段、`拓展内容`字段、新增`用户名密码校验`
+- [兼容模式 精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/low.lite)
+- [基本认证版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/auth) 仅提供`Basic Authentication`认证
+- [SpringBoot 3.x版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3) 支持`SpringBoot 3.0.0`及以上版本
+- [SpringBoot 3.x 精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3.lite)
+
 ## 依赖导入
 
 ```xml
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.6.3.lite</version>
+  <version>1.6.3.v3.lite</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-web</artifactId>
-  <version>2.7.15</version>
+  <version>3.2.2</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-data-redis</artifactId>
-  <version>2.7.15</version>
+  <version>3.2.2</version>
 </dependency>
 <dependency>
   <groupId>cn.404z</groupId>
