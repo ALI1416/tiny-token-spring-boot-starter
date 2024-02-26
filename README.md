@@ -25,6 +25,7 @@
 - [基本认证版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/auth) 仅提供`Basic Authentication`认证
 - [SpringBoot 3.x版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3) 支持`SpringBoot 3.0.0`及以上版本
 - [SpringBoot 3.x 精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3.lite)
+- [SpringBoot 3.x 基本认证版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3.auth)
 
 ## 依赖导入
 
