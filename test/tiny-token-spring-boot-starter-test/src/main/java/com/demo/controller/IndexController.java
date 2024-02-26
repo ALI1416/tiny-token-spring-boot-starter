@@ -43,7 +43,7 @@ public class IndexController {
 
     /**
      * Authorization是否正确(当前Context)<br>
-     * http://localhost:8080/isCorrect2
+     * http://localhost:8080/isCorrect
      */
     @GetMapping("isCorrect")
     public boolean isCorrect() {

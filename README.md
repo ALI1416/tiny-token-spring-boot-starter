@@ -25,6 +25,7 @@
 - [基本认证版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/auth) 仅提供`Basic Authentication`认证
 - [SpringBoot 3.x版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3) 支持`SpringBoot 3.0.0`及以上版本
 - [SpringBoot 3.x 精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3.lite)
+- [SpringBoot 3.x 基本认证版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3.auth)
 
 ## 依赖导入
 
@@ -32,12 +33,12 @@
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.6.3.auth</version>
+  <version>1.6.4.auth</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-web</artifactId>
-  <version>2.7.15</version>
+  <version>2.7.18</version>
 </dependency>
 ```
 

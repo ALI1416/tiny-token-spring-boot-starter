@@ -66,7 +66,7 @@ public class T4s {
      * @throws TinyTokenException 不存在Context
      */
     public boolean isCorrect() {
-        return isCorrect();
+        return isCorrect(getAuth());
     }
 
     /**
