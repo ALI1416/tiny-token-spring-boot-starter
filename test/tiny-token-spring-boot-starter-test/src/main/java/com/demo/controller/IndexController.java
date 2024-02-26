@@ -1,11 +1,10 @@
 package com.demo.controller;
 
 import cn.z.tinytoken.T4s;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * <h1>首页</h1>

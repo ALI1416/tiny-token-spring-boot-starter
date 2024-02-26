@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.6.4.auth</version>
+  <version>1.6.4.v3.auth</version>
 
   <parent>
     <groupId>cn.404z</groupId>
@@ -14,7 +14,7 @@
   </parent>
 
   <name>tiny-token-spring-boot-starter</name>
-  <description>Tiny Token SpringBoot Starter (Basic Authentication Version) 轻量级权限认证SpringBoot启动器(基本认证版)</description>
+  <description>Tiny Token SpringBoot Starter (SpringBoot 3.x Basic Authentication Version) 轻量级权限认证SpringBoot启动器(SpringBoot 3.x 基本认证版)</description>
   <url>https://github.com/ALI1416/tiny-token-spring-boot-starter</url>
 
   <scm>
@@ -26,21 +26,21 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-      <version>2.7.18</version>
+      <version>3.2.2</version>
       <scope>provided</scope>
     </dependency>
     <!-- 仅供编译使用 -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure-processor</artifactId>
-      <version>2.7.18</version>
+      <version>3.2.2</version>
       <optional>true</optional>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-configuration-processor</artifactId>
-      <version>2.7.18</version>
+      <version>3.2.2</version>
       <optional>true</optional>
       <scope>provided</scope>
     </dependency>
@@ -48,7 +48,7 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
-      <version>2.7.18</version>
+      <version>3.2.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>

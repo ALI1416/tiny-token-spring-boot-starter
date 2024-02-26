@@ -1,4 +1,4 @@
-# Tiny Token SpringBoot Starter (Basic Authentication Version) 轻量级权限认证SpringBoot启动器(基本认证版)
+# Tiny Token SpringBoot Starter (SpringBoot 3.x Basic Authentication Version) 轻量级权限认证SpringBoot启动器(SpringBoot 3.x 基本认证版)
 
 [![License](https://img.shields.io/github/license/ALI1416/tiny-token-spring-boot-starter?label=License)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Java Support](https://img.shields.io/badge/Java-8+-green)](https://openjdk.org/)
@@ -33,12 +33,12 @@
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.6.4.auth</version>
+  <version>1.6.4.v3.auth</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-web</artifactId>
-  <version>2.7.18</version>
+  <version>3.2.2</version>
 </dependency>
 ```
 

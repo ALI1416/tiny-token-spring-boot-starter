@@ -1,12 +1,12 @@
 package cn.z.tinytoken;
 
 import cn.z.tinytoken.autoconfigure.TinyTokenProperties;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 
 /**
