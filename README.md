@@ -16,6 +16,17 @@
 
 轻量级权限认证SpringBoot实现，使用Redis、雪花ID、Base62等技术
 
+### 支持版本
+
+- [主线版本](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/master)
+- [兼容模式](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/low) 支持`SpringBoot 2.7.0`以下版本
+- [精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/lite) 去除`id`字段、`拓展内容`字段、新增`用户名密码校验`
+- [兼容模式 精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/low.lite)
+- [基本认证版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/auth) 仅提供`Basic Authentication`认证
+- [SpringBoot 3.x版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3) 支持`SpringBoot 3.0.0`及以上版本
+- [SpringBoot 3.x 精简版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3.lite)
+- [SpringBoot 3.x 基本认证版](https://github.com/ALI1416/tiny-token-spring-boot-starter/tree/v3.auth)
+
 ## 依赖导入
 
 ```xml
@@ -27,12 +38,12 @@
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-web</artifactId>
-  <version>2.7.15</version>
+  <version>2.7.18</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-data-redis</artifactId>
-  <version>2.7.15</version>
+  <version>2.7.18</version>
 </dependency>
 <dependency>
   <groupId>cn.404z</groupId>
