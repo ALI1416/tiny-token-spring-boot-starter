@@ -30,7 +30,7 @@ public class TokenInfoExtra extends TokenInfo {
     public String toString() {
         return "TokenInfoExtra{" +
                 "extra='" + extra + '\'' +
-                '}';
+                "} " + super.toString();
     }
 
 }
