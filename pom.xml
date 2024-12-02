@@ -5,12 +5,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.6.3.lite</version>
+  <version>1.7.0.lite</version>
 
   <parent>
     <groupId>cn.404z</groupId>
     <artifactId>parent</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
   </parent>
 
   <name>tiny-token-spring-boot-starter</name>
@@ -38,10 +38,9 @@
     <dependency>
       <groupId>cn.404z</groupId>
       <artifactId>id-spring-boot-autoconfigure</artifactId>
-      <version>3.2.0</version>
+      <version>3.3.0</version>
       <scope>provided</scope>
     </dependency>
-    <!-- 仅供编译使用 -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure-processor</artifactId>
@@ -56,7 +55,6 @@
       <optional>true</optional>
       <scope>provided</scope>
     </dependency>
-    <!-- 仅供测试使用 -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -66,7 +64,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.34</version>
+      <version>1.18.36</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
