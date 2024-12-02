@@ -33,22 +33,22 @@
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>tiny-token-spring-boot-starter</artifactId>
-  <version>1.6.3.v3</version>
+  <version>1.7.0.v3</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-web</artifactId>
-  <version>3.2.2</version>
+  <version>3.4.0</version>
 </dependency>
 <dependency>
   <groupId>org.springframework.boot</groupId>
   <artifactId>spring-boot-starter-data-redis</artifactId>
-  <version>3.2.2</version>
+  <version>3.4.0</version>
 </dependency>
 <dependency>
   <groupId>cn.404z</groupId>
   <artifactId>id-spring-boot-autoconfigure</artifactId>
-  <version>3.1.2</version>
+  <version>3.3.0</version>
 </dependency>
 ```
 

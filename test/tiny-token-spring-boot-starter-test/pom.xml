@@ -14,14 +14,14 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.2.2</version>
+    <version>3.4.0</version>
   </parent>
 
   <dependencies>
     <dependency>
       <groupId>cn.404z</groupId>
       <artifactId>tiny-token-spring-boot-starter</artifactId>
-      <version>1.6.3.v3</version>
+      <version>1.7.0.v3</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -34,7 +34,7 @@
     <dependency>
       <groupId>cn.404z</groupId>
       <artifactId>id-spring-boot-autoconfigure</artifactId>
-      <version>3.1.2</version>
+      <version>3.3.0</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -45,7 +45,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.30</version>
+      <version>1.18.36</version>
       <optional>true</optional>
     </dependency>
   </dependencies>
