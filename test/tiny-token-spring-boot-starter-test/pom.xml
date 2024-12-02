@@ -21,7 +21,7 @@
     <dependency>
       <groupId>cn.404z</groupId>
       <artifactId>tiny-token-spring-boot-starter</artifactId>
-      <version>1.6.4.auth</version>
+      <version>1.7.0.auth</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.30</version>
+      <version>1.18.36</version>
       <optional>true</optional>
     </dependency>
   </dependencies>
